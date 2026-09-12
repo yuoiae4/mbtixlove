@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<title>MBTI 恋愛診断 | 好きの型と、合う相手を知る</title>
+<meta name="description" content="MBTI恋愛診断。20問で性格と恋愛の好みを分けて判定。合う相手、デートの1手、気をつけたい点まで。無料・登録不要。" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="canonical" href="mbti-love.html" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23140C10'/%3E%3Cpath d='M32 48s-14-9-14-19c0-6 4-10 9-10 3 0 5 2 5 2s2-2 5-2c5 0 9 4 9 10 0 10-14 19-14 19z' fill='%23E8B4BC'/%3E%3C/svg%3E" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="MBTI 恋愛診断 | 好きの型が分かる" />
+<meta property="og:description" content="20個の質問で、あなたのMBTIと恋愛の進み方が分かります。" />
+<meta property="og:image" content="ogp-love.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="MBTI 恋愛診断" />
+<meta name="twitter:description" content="20個の質問で、好きの型と合う相手が見つかります。" />
+<meta name="twitter:image" content="ogp-love.png" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
+  * { box-sizing: border-box; }
+  html, body, #root { margin: 0; min-height: 100%; }
+  body {
+    background: #140C10;
+    color: #F3E6D8;
+    font-family: "Zen Kaku Gothic New", "Hiragino Sans", sans-serif;
+  }
+  .display { font-family: "Cormorant Garamond", "Yu Mincho", serif; }
+  body::before {
+    content: "";
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    opacity: .09;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'><path d='M60 92s-26-16-26-36c0-12 8-20 18-20 6 0 8 4 8 4s2-4 8-4c10 0 18 8 18 20 0 20-26 36-26 36z' fill='none' stroke='%23E8B4BC' stroke-width='3'/></svg>"),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='90' height='90'><circle cx='45' cy='45' r='18' fill='none' stroke='%23C9A06A' stroke-width='2'/></svg>");
+    background-size: 160px 160px, 110px 110px;
+    background-position: 8% 12%, 80% 70%;
+  }
+  #root { position: relative; z-index: 1; }
+  button { font-family: inherit; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<noscript>
+  <main style="max-width:760px;margin:40px auto;padding:0 20px">
+    <h1>MBTI 恋愛診断</h1>
+    <p>JavaScriptを有効にすると、20問の診断が使えます。</p>
+  </main>
+</noscript>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+const { useEffect, useState } = React;
+
+const STORAGE_KEY = "mbti-love-history-v1";
+const AMAZON_TAG = "d4ga9kxf-22";
+const RAKUTEN_ID = "5773784b.cc30332e.5773784c.9b2f9ad1";
+const SUPPORT_URL = "https://buymeacoffee.com/myunaua231hnj";
+const ALL_TYPES = ["INTJ","INTP","ENTJ","ENTP","INFJ","INFP","ENFJ","ENFP","ISTJ","ISFJ","ESTJ","ESFJ","ISTP","ISFP","ESTP","ESFP"];
+const COMPAT = {
+  INTJ:["ENFP","ENTP","INFJ"], INTP:["ENFJ","ENTJ","INFP"],
+  ENTJ:["INFP","INTP","ENFP"], ENTP:["INFJ","INTJ","ENFP"],
+  INFJ:["ENTP","ENFP","INTJ"], INFP:["ENTJ","ENFJ","INTP"],
+  ENFJ:["INTP","INFP","ISFP"], ENFP:["INTJ","INFJ","ENTP"],
+  ISTJ:["ESFP","ESTP","ISFJ"], ISFJ:["ESFP","ESTP","ISTJ"],
+  ESTJ:["ISFP","ISTP","ESFJ"], ESFJ:["ISFP","ISTP","ESTJ"],
+  ISTP:["ESFJ","ENFJ","ESTP"], ISFP:["ESFJ","ESTJ","ENFJ"],
+  ESTP:["ISFJ","ISTJ","ESFP"], ESFP:["ISFJ","ISTJ","ESTP"],
+};
+const TEMP = {
+  NT:{accent:"#C9A06A", name:{ja:"構想",en:"Vision",zh:"构想"}},
+  NF:{accent:"#E8B4BC", name:{ja:"共感",en:"Feeling",zh:"共感"}},
+  SJ:{accent:"#D9C4A8", name:{ja:"誠実",en:"Steady",zh:"踏实"}},
+  SP:{accent:"#F0C4A0", name:{ja:"衝動",en:"Spark",zh:"冲动"}},
+};
+const temperamentOf = (t) => t[1]==="N" ? (t[2]==="T"?"NT":"NF") : (t[3]==="J"?"SJ":"SP");
+
+const TYPES = {
+  INTJ:{ nickname:{ja:"建築家",en:"Architect",zh:"建筑师"},
+    love:{ja:"静かに未来を設計する恋人",en:"The quiet strategist",zh:"安静设计未来的恋人"},
+    blurb:{ja:"好意は言葉より、一緒にいる時間の設計に出る。浅いやり取りより、長く続く関係を選ぶ。",en:"Affection shows up as a long plan, not small talk.",zh:"喜欢用长期安排，而不是闲聊来表达。"},
+    caution:{ja:"結論を急いで、相手の温度を置いてけぼりにしやすい。",en:"You may decide the future before they feel ready.",zh:"容易先下结论，把对方的温度丢下。"} },
+  INTP:{ nickname:{ja:"論理学者",en:"Logician",zh:"逻辑学家"},
+    love:{ja:"興味で近づき、理解で深める恋人",en:"Curious then devoted",zh:"因好奇靠近、因理解变深"},
+    blurb:{ja:"好きになると相手の内側を知りたくなる。毎日の連絡より、一度の長い会話が効く。",en:"One long talk beats a streak of check-ins.",zh:"一次长谈，胜过每天报备。"},
+    caution:{ja:"考えているうちに返信が遅れ、冷めたように見える。",en:"Silence while thinking can look like distance.",zh:"想事情时回得慢，会像降温。"} },
+  ENTJ:{ nickname:{ja:"指揮官",en:"Commander",zh:"指挥官"},
+    love:{ja:"関係を前に進めたがる恋人",en:"The forward planner",zh:"想把关系往前推的人"},
+    blurb:{ja:"曖昧さが苦手。デートも将来の話も、決めて動いたほうが安心する。",en:"Clarity is care. Plans feel like love.",zh:"讨厌暧昧，定下来才安心。"},
+    caution:{ja:"リードが強すぎて、相手の「まだ」を見落とす。",en:"The drive to lead can skip their 'not yet'.",zh:"主导太强，会错过对方的还没准备好。"} },
+  ENTP:{ nickname:{ja:"討論者",en:"Debater",zh:"辩论家"},
+    love:{ja:"会話で点火する恋人",en:"Sparks through talk",zh:"用对话点火的恋人"},
+    blurb:{ja:"会話の応酬が愛情。本気でも、まず面白がってしまう。",en:"Banter is the love language.",zh:"抬杠和玩笑就是爱的语言。"},
+    caution:{ja:"本気の場面でも冗談を挟み、真剣さが届かないことがある。",en:"Jokes can land when they needed gravity.",zh:"认真的场合也开玩笑，诚意传不到。"} },
+  INFJ:{ nickname:{ja:"提唱者",en:"Advocate",zh:"提倡者"},
+    love:{ja:"一人を深く見る恋人",en:"The one-person depth",zh:"把一个人看很深的恋人"},
+    blurb:{ja:"大勢より、一人の内側。分かってもらえた瞬間が、いちばんの告白になる。",en:"Being understood is the confession.",zh:"被读懂的瞬间，才是告白。"},
+    caution:{ja:"察してほしい期待が強く、言わない不満が溜まりやすい。",en:"Unspoken hopes pile up.",zh:"期待对方猜到，委屈容易积。"} },
+  INFP:{ nickname:{ja:"仲介者",en:"Mediator",zh:"调停者"},
+    love:{ja:"理想の温度を守る恋人",en:"Guardian of the ideal",zh:"守着理想温度的恋人"},
+    blurb:{ja:"好きの形が繊細。大きなイベントより、小さな一貫した優しさに弱い。",en:"Small consistent kindness beats grand nights.",zh:"怕大场面，吃细水长流的温柔。"},
+    caution:{ja:"理想と違うと一気に距離を取り、理由を言わないことがある。",en:"When it breaks the ideal, you vanish quietly.",zh:"和理想不符时会默默拉开。"} },
+  ENFJ:{ nickname:{ja:"主人公",en:"Protagonist",zh:"主人公"},
+    love:{ja:"相手の一番を引き出す恋人",en:"The one who champions you",zh:"把对方最好一面拉出来"},
+    blurb:{ja:"相手が輝く瞬間を見たい。世話と励ましが、そのまま好意になる。",en:"Care and pep talks are the crush.",zh:"照顾和打气本身就是喜欢。"},
+    caution:{ja:"相手の課題まで抱え、自分の疲れに気づくのが遅い。",en:"You carry their problems past your own limit.",zh:"把对方的课题背完，才发现自己累了。"} },
+  ENFP:{ nickname:{ja:"運動家",en:"Campaigner",zh:"竞选者"},
+    love:{ja:"出会いを物語にする恋人",en:"Turns meetings into stories",zh:"把相遇写成故事的人"},
+    blurb:{ja:"初めての場所、初めての話。関係が動き続けていると感じたい。",en:"You need the story to keep moving.",zh:"想感觉这段关系一直在往前写。"},
+    caution:{ja:"熱の立ち上がりが早く、日常のフェーズで息切れしやすい。",en:"The spark is fast; the everyday can feel flat.",zh:"热得快，进入日常就容易泄气。"} },
+  ISTJ:{ nickname:{ja:"管理者",en:"Logistician",zh:"物流师"},
+    love:{ja:"約束を守って愛を示す恋人",en:"Love as reliability",zh:"用守约来爱的人"},
+    blurb:{ja:"派手さより、言ったことをやる。同じ店にまた行く、それ自体が告白。",en:"Showing up again is the confession.",zh:"再说一次去同一家店，就是告白。"},
+    caution:{ja:"気持ちの説明が少なく、淡白に見られやすい。",en:"Low commentary can read as coolness.",zh:"不解释心情，会被看成淡。"} },
+  ISFJ:{ nickname:{ja:"擁護者",en:"Defender",zh:"守护者"},
+    love:{ja:"日常の世話で伝える恋人",en:"Care in the ordinary",zh:"用日常照料说话的人"},
+    blurb:{ja:"体調、好み、帰り際の一言。大きな言葉より、抜け漏れのない優しさ。",en:"The details are the romance.",zh:"细节就是浪漫。"},
+    caution:{ja:"先回りしすぎて、相手の自立やペースを奪うことがある。",en:"Anticipating everything can crowd them.",zh:"预判太全，会抢走对方的节奏。"} },
+  ESTJ:{ nickname:{ja:"幹部",en:"Executive",zh:"总经理"},
+    love:{ja:"関係を形にしたがる恋人",en:"Makes it official",zh:"想把关系定下来的人"},
+    blurb:{ja:"曖昧な期間が苦手。紹介する、予定を入れる、区切りを付ける。",en:"Labels and calendars feel safe.",zh:"介绍、排期、画界限才安心。"},
+    caution:{ja:"正しさを先に出すと、弱さを見せる相手が黙る。",en:"Being right first can shut down softness.",zh:"先讲对错，软弱的一方会闭嘴。"} },
+  ESFJ:{ nickname:{ja:"領事官",en:"Consul",zh:"执政官"},
+    love:{ja:"場と人をつなぐ恋人",en:"The host of the two of you",zh:"把两个人的场连起来"},
+    blurb:{ja:"一緒に誰かと会う、記念日を覚えておく。関係が社会に置けると安心する。",en:"Shared people and dates make it real.",zh:"能被周围看见，才觉得真的。"},
+    caution:{ja:"周りからの見え方を気にしすぎて、二人の本音が後回しになる。",en:"The audience can outrank the pair.",zh:"太在意外界，两人的真话会排后面。"} },
+  ISTP:{ nickname:{ja:"巨匠",en:"Virtuoso",zh:"鉴赏家"},
+    love:{ja:"隣にいることで伝える恋人",en:"Love by proximity",zh:"用待在旁边来表达"},
+    blurb:{ja:"長い告白より、同じ作業・同じ道。言葉は少ないが、呼ばれたら来る。",en:"They come when called.",zh:"话少，但你一叫就到。"},
+    caution:{ja:"気持ちを聞かれたとき空洞に見え、不安を増やす。",en:"A blank face when asked 'what do you feel?'.",zh:"被问感受时像空白，对方会慌。"} },
+  ISFP:{ nickname:{ja:"冒険家",en:"Adventurer",zh:"探险家"},
+    love:{ja:"空気と感覚で選ぶ恋人",en:"Chooses by atmosphere",zh:"靠空气和感觉选择"},
+    blurb:{ja:"景色、音楽、触れた温度。説明できない好きを、そのまま信じていいタイプ。",en:"The mood is the message.",zh:"氛围就是答案。"},
+    caution:{ja:"衝突を避けるうちに、本当に欲しいものを言わなくなる。",en:"Conflict-avoidance hides the want.",zh:"躲冲突时，真正想要的也不说了。"} },
+  ESTP:{ nickname:{ja:"起業家",en:"Entrepreneur",zh:"企业家"},
+    love:{ja:"今夜を動かしたがる恋人",en:"Makes tonight happen",zh:"想把今晚推动起来的人"},
+    blurb:{ja:"予定表より、今この場。誘う速さと、場を温めるのが得意。",en:"The invite is the romance.",zh:"邀请本身就是浪漫。"},
+    caution:{ja:"次の刺激を探しすぎて、定着の会話が雑になる。",en:"The next spark can outrun staying.",zh:"去找下一刺激时，留下的话会变粗。"} },
+  ESFP:{ nickname:{ja:"エンターテイナー",en:"Entertainer",zh:"表演者"},
+    love:{ja:"一緒に盛り上がりたい恋人",en:"Wants the room lit",zh:"想一起把场子热起来"},
+    blurb:{ja:"写真、音楽、人前でも自然な接触。楽しい記憶が、関係の証拠になる。",en:"Fun memories are the proof.",zh:"开心的记忆就是关系的证据。"},
+    caution:{ja:"沈んだ日の相手に、明るさで上書きしようとしてすれ違う。",en:"Cheer can overwrite a low day.",zh:"用热闹覆盖低落，会错开。"} },
+};
+
+const PREF_KEYS = ["close","space","plan","flow","talk","play","words","touch","future","now"];
+const PREF_LABEL = {
+  ja:{close:"密着",space:"余白",plan:"計画",flow:"流れ",talk:"会話",play:"遊び",words:"言葉",touch:"気配",future:"将来",now:"今ここ"},
+  en:{close:"Close",space:"Space",plan:"Plans",flow:"Flow",talk:"Talk",play:"Play",words:"Words",touch:"Presence",future:"Future",now:"Tonight"},
+  zh:{close:"贴近",space:"留白",plan:"计划",flow:"随性",talk:"深谈",play:"一起玩",words:"字句",touch:"陪伴",future:"将来",now:"此刻"},
+};
+
+const QUESTIONS = [
+  { kind:"pref", axis:"close", text:{ja:"メッセージが途切れると、少し不安になる",en:"A quiet chat thread makes me uneasy",zh:"消息一断就会有点不安"}, a:{ja:"近くに感じていたい",en:"I want to feel close",zh:"想感觉人在"}, aVal:"closeHi", b:{ja:"沈黙も信頼のうち",en:"Silence can be trust",zh:"沉默也是信任"}, bVal:"closeLo" },
+  { kind:"mbti", axis:"EI", text:{ja:"好きな人とは、声に出して話すほど調子が出る",en:"Talking out loud with them energizes me",zh:"和喜欢的人开口聊会更有状态"}, a:{ja:"話しながら近づく",en:"Talking brings me closer",zh:"边说边靠近"}, aVal:"E", b:{ja:"隣で静かにしていたい",en:"Quiet company is enough",zh:"安静待着就好"}, bVal:"I" },
+  { kind:"mbti", axis:"EI", text:{ja:"二人の関係を、友人にも自然と話したくなる",en:"I want to mention us to friends",zh:"会想跟朋友自然提起两个人"}, a:{ja:"共有したくなる",en:"I want it shared",zh:"想分享"}, aVal:"E", b:{ja:"二人のままにしておきたい",en:"Keep it between us",zh:"想先留在两人之间"}, bVal:"I" },
+  { kind:"mbti", axis:"EI", text:{ja:"初対面の相手でも、会話のキャッチボールを楽しめる",en:"I enjoy rallying with someone new",zh:"和新认识的人抛接话也开心"}, a:{ja:"場を温められる",en:"I can warm the room",zh:"能把场子热起来"}, aVal:"E", b:{ja:"相手の温度を見てから動く",en:"I wait to read the room",zh:"先看对方温度再动"}, bVal:"I" },
+  { kind:"mbti", axis:"SN", text:{ja:"デートは、行く場所と時間を具体的に決めたい",en:"I want a concrete place and time",zh:"约会想把地点和时间定清楚"}, a:{ja:"具体的だと安心",en:"Specific feels safe",zh:"具体才安心"}, aVal:"S", b:{ja:"雰囲気が合えば場所は後でいい",en:"Mood first, place later",zh:"氛围对了地点可以后定"}, bVal:"N" },
+  { kind:"mbti", axis:"SN", text:{ja:"好きな人の、今の事実よりこれからの可能性を想像する",en:"I picture who we could become",zh:"更想想象两个人会变成什么样"}, a:{ja:"今あるものを大切にする",en:"I hold what is here",zh:"更珍惜已经有的"}, aVal:"S", b:{ja:"未来の話がときめく",en:"The future talk sparks me",zh:"聊未来会心动"}, bVal:"N" },
+  { kind:"mbti", axis:"SN", text:{ja:"記念日やいつもの店など、積み重ねた記憶を大事にする",en:"I keep the dates and usual places",zh:"很在意纪念日和常去的店"}, a:{ja:"繰り返す場所が好き",en:"I like returning places",zh:"喜欢重复去的地方"}, aVal:"S", b:{ja:"まだ知らない夜が好き",en:"I want an unknown night",zh:"喜欢还没去过的夜"}, bVal:"N" },
+  { kind:"mbti", axis:"TF", text:{ja:"喧嘩のあと、気持ちより先に原因を整理したくなる",en:"After a fight I sort causes before feelings",zh:"吵完会先整理原因"}, a:{ja:"論理でほぐしたい",en:"Talk it apart",zh:"想用逻辑拆开"}, aVal:"T", b:{ja:"まず気持ちを受け止めたい",en:"Feelings first",zh:"先接住心情"}, bVal:"F" },
+  { kind:"mbti", axis:"TF", text:{ja:"告白や別れの話は、はっきり言ったほうがいい",en:"Better to say the hard thing plainly",zh:"告白或分开还是说清楚好"}, a:{ja:"率直でいい",en:"Be direct",zh:"直接就好"}, aVal:"T", b:{ja:"相手の受け取り方を優先する",en:"Protect how they hear it",zh:"先顾对方听感"}, bVal:"F" },
+  { kind:"mbti", axis:"TF", text:{ja:"相手のためでも、公平でないことは残したくない",en:"Even for them, I don't want an unfair deal",zh:"就算为对方，也不想留着不公平"}, a:{ja:"公平さを守りたい",en:"Keep it fair",zh:"想守公平"}, aVal:"T", b:{ja:"その人の事情を優先したい",en:"Their situation comes first",zh:"想优先那个人的情况"}, bVal:"F" },
+  { kind:"mbti", axis:"JP", text:{ja:"付き合う前に、どのくらい真剣かを決めておきたい",en:"I want to know how serious this is",zh:"在一起前想先知道有多认真"}, a:{ja:"区切りがあると安心",en:"A label helps",zh:"有界限才安心"}, aVal:"J", b:{ja:"流れに任せて深めたい",en:"Let it deepen in motion",zh:"想跟着流变深"}, bVal:"P" },
+  { kind:"mbti", axis:"JP", text:{ja:"次のデート候補は、その場で複数残しておきたい",en:"I'd rather leave next-date options open",zh:"下次约会想先留几个选项"}, a:{ja:"先に一つ決めたい",en:"Pick one now",zh:"想先定一个"}, aVal:"J", b:{ja:"当日の気分で選びたい",en:"Choose that day",zh:"想看当天心情"}, bVal:"P" },
+  { kind:"mbti", axis:"JP", text:{ja:"関係の将来を、ある程度スケジュールに置けると落ち着く",en:"A rough timeline for us is calming",zh:"关系的将来能放进时间表就安心"}, a:{ja:"見通しが欲しい",en:"I want a horizon",zh:"想要前瞻"}, aVal:"J", b:{ja:"今がよければそれでいい",en:"If tonight is good, enough",zh:"今晚好就够了"}, bVal:"P" },
+  { kind:"pref", axis:"talk", text:{ja:"沈黙が続くより、何でも話している時間のほうが好き",en:"I'd rather keep talking than sit in quiet",zh:"比起沉默，更喜欢有话在说"}, a:{ja:"会話で満たされたい",en:"Fill it with talk",zh:"想用对话填满"}, aVal:"talkHi", b:{ja:"一緒にいるだけで足りる",en:"Presence is enough",zh:"待在一起就够"}, bVal:"talkLo" },
+  { kind:"pref", axis:"plan", text:{ja:"サプライズより、二人で立てた予定のほうが嬉しい",en:"A plan we made beats a surprise",zh:"一起排的行程，比惊喜更开心"}, a:{ja:"一緒に決めたい",en:"Decide together",zh:"想一起定"}, aVal:"planHi", b:{ja:"予想外に弱い",en:"I melt at the unexpected",zh:"吃意外"}, bVal:"planLo" },
+  { kind:"pref", axis:"words", text:{ja:"好きなら、言葉か手紙で残してほしい",en:"If you like me, leave it in words",zh:"喜欢的话想用句子或信留下"}, a:{ja:"言葉が欲しい",en:"I need the words",zh:"想要字句"}, aVal:"wordsHi", b:{ja:"態度と時間で分かればいい",en:"Time and manner are enough",zh:"态度和时间够了就好"}, bVal:"wordsLo" },
+  { kind:"pref", axis:"future", text:{ja:"将来の話が出ると、関係が本物に感じる",en:"Future talk makes it feel real",zh:"一聊将来就觉得是真的"}, a:{ja:"先の話がしたい",en:"Talk further out",zh:"想聊更远"}, aVal:"futureHi", b:{ja:"今の相性を見たい",en:"Watch tonight first",zh:"想先看今晚合不合"}, bVal:"futureLo" },
+  { kind:"pref", axis:"play", text:{ja:"改まったディナーより、一緒に遊べる予定のほうが気が楽",en:"Play feels easier than a formal dinner",zh:"一起玩比正式晚餐更轻松"}, a:{ja:"遊びながら近づきたい",en:"Get closer by playing",zh:"想边玩边靠近"}, aVal:"playHi", b:{ja:"ちゃんと向き合う時間がいい",en:"I want sit-down time",zh:"想要好好相对的时间"}, bVal:"playLo" },
+  { kind:"pref", axis:"space", text:{ja:"毎日会うより、間を置いたほうが次が楽しみになる",en:"A gap makes the next time sweeter",zh:"隔一点，下次会更期待"}, a:{ja:"余白も愛情",en:"Space is care too",zh:"留白也是爱"}, aVal:"spaceHi", b:{ja:"近いほど安心",en:"Closer is calmer",zh:"越近越安心"}, bVal:"spaceLo" },
+  { kind:"pref", axis:"touch", text:{ja:"言葉より、隣に座ってくれる時間のほうが届く",en:"Sitting beside me lands more than a speech",zh:"坐在旁边，比一大段话更到"}, a:{ja:"気配が大事",en:"Presence first",zh:"陪伴更重要"}, aVal:"touchHi", b:{ja:"理由や言葉が欲しい",en:"I want the reason said",zh:"想听原因和句子"}, bVal:"touchLo" },
+];
+
+const DATES = [
+  { id:"nightwalk", name:{ja:"夜の長い散歩",en:"A long night walk",zh:"夜里长走"}, tags:["flow","touch","now"],
+    stats:{close:3,space:4,plan:2,flow:5,talk:4,play:2,words:3,touch:5,future:2,now:5},
+    boost:{ISFP:94,INFP:90,INFJ:86,ISTP:84},
+    why:{ja:"歩く速度が、そのまま会話の速度になる",en:"The pace of walking becomes the pace of talk",zh:"走路的速度就是说话的速度"},
+    shop:"ナイトウォーク ストール" },
+  { id:"letter", name:{ja:"手紙を置いて終わる夜",en:"A night that ends with a letter",zh:"用一封信收尾的夜"}, tags:["words","plan","future"],
+    stats:{close:4,space:3,plan:4,flow:2,talk:3,play:1,words:5,touch:2,future:4,now:3},
+    boost:{INFJ:96,INFP:94,ISFJ:88,INTJ:80},
+    why:{ja:"その場で言い切れない好意を、文字に残せる",en:"What you can't say lands on paper",zh:"当面说不完的喜欢，可以写下来"},
+    shop:"便箋 万年筆" },
+  { id:"museum", name:{ja:"美術館で同じ絵の前に立つ",en:"The same painting, two views",zh:"在同一幅画前站一会"}, tags:["talk","space","plan"],
+    stats:{close:3,space:4,plan:4,flow:3,talk:5,play:2,words:4,touch:2,future:3,now:3},
+    boost:{INTJ:90,INFJ:92,INTP:86,ISFP:84},
+    why:{ja:"作品が会話のクッションになる",en:"The art holds the silence",zh:"作品会垫住对话"},
+    shop:"美術館 チケット ペア" },
+  { id:"cook", name:{ja:"二人で献立から決めて作る",en:"Cook the menu you chose together",zh:"从菜单开始一起做"}, tags:["plan","play","close"],
+    stats:{close:5,space:2,plan:5,flow:2,talk:3,play:4,words:2,touch:4,future:4,now:4},
+    boost:{ISFJ:95,ESFJ:90,ISTJ:86,ENFJ:84},
+    why:{ja:"役割分担が、そのまま相性の練習になる",en:"Sharing tasks is a rehearsal for us",zh:"分工本身就是在练习相处"},
+    shop:"ペア エプロン" },
+  { id:"stars", name:{ja:"あまり話さず星を見る",en:"Watch the sky without filling it",zh:"少说话，看一会星"}, tags:["space","touch","now"],
+    stats:{close:3,space:5,plan:2,flow:5,talk:2,play:1,words:2,touch:5,future:3,now:5},
+    boost:{ISFP:96,INTP:88,ISTP:86,INFJ:82},
+    why:{ja:"沈黙が気まずくならない場所を先に作れる",en:"A place where quiet is allowed",zh:"先有一个沉默也不尴尬的地方"},
+    shop:"星空 観測 ブランケット" },
+  { id:"cafe", name:{ja:"閉店まで残る長いカフェ",en:"Stay until the cafe closes",zh:"坐到咖啡店打烊"}, tags:["talk","words","close"],
+    stats:{close:4,space:3,plan:3,flow:3,talk:5,play:2,words:5,touch:2,future:4,now:3},
+    boost:{ENFP:92,INFJ:90,ENFJ:88,INFP:86},
+    why:{ja:"主題のない話が、いちばん本音に近い",en:"Aimless talk gets nearest the truth",zh:"没有主题的话，最接近真话"},
+    shop:"コーヒー ギフト セット" },
+  { id:"game", name:{ja:"対戦しない協力ゲーム",en:"A co-op game, not a duel",zh:"不互掐的合作游戏"}, tags:["play","flow","close"],
+    stats:{close:4,space:2,plan:2,flow:4,talk:3,play:5,words:2,touch:3,future:2,now:5},
+    boost:{ENTP:90,ESFP:88,ENFP:86,ISTP:80},
+    why:{ja:"勝敗より、同じ画面を見る時間が残る",en:"The shared screen is the date",zh:"留下的是同一块屏幕，不是输赢"},
+    shop:"協力 ボードゲーム" },
+  { id:"market", name:{ja:"朝の市場をぶらぶらする",en:"Wander a morning market",zh:"早上在市场里逛"}, tags:["flow","play","now"],
+    stats:{close:3,space:3,plan:2,flow:5,talk:3,play:5,words:2,touch:3,future:2,now:5},
+    boost:{ESFP:94,ESTP:90,ENFP:86,ISFP:82},
+    why:{ja:"予定がないのに、一緒に選ぶ練習ができる",en:"No itinerary, still choosing together",zh:"没有行程，也能练习一起选"},
+    shop:"トートバッグ ペア" },
+  { id:"onsen", name:{ja:"小さな宿で予定を少なくする",en:"A small inn, almost no plan",zh:"小旅馆，行程很少"}, tags:["space","close","future"],
+    stats:{close:5,space:4,plan:3,flow:4,talk:3,play:2,words:3,touch:5,future:4,now:4},
+    boost:{ISFJ:90,INFJ:88,ISFP:86,INTJ:78},
+    why:{ja:"移動を減らすと、相手のペースが見える",en:"Less transit, more of their pace",zh:"少移动，才能看见对方的节奏"},
+    shop:"ペア 温泉 旅行" },
+  { id:"live", name:{ja:"同じライブで声を揃える",en:"The same chorus, same room",zh:"在同一场演出里对齐声音"}, tags:["play","close","now"],
+    stats:{close:5,space:2,plan:4,flow:3,talk:2,play:5,words:2,touch:4,future:2,now:5},
+    boost:{ESFP:96,ENFP:90,ESFJ:84,ESTP:82},
+    why:{ja:"会話より先に、同じ時間の熱量を共有できる",en:"You share heat before you share words",zh:"还没深聊，先共享同一段热度"},
+    shop:"ライブ タオル" },
+  { id:"book", name:{ja:"同じ本を、別々に読んでから話す",en:"Read the same book apart, then talk",zh:"各读同一本，再见面聊"}, tags:["words","space","talk"],
+    stats:{close:3,space:5,plan:4,flow:2,talk:5,play:1,words:5,touch:1,future:3,now:2},
+    boost:{INTJ:93,INFJ:91,INTP:88,INFP:84},
+    why:{ja:"距離を置いた時間も、関係の一部にできる",en:"The days apart still belong to you",zh:"分开读的几天，也算在关系里"},
+    shop:"文庫 セット" },
+  { id:"drive", name:{ja:"目的地を決めないドライブ",en:"A drive with no destination",zh:"没有目的地的开车"}, tags:["flow","now","space"],
+    stats:{close:3,space:4,plan:1,flow:5,talk:4,play:3,words:3,touch:3,future:2,now:5},
+    boost:{ISTP:92,ESTP:90,ISFP:86,ENTP:80},
+    why:{ja:"窓の外が話題を運んでくる",en:"The window brings the next subject",zh:"窗外会把下一句送来"},
+    shop:"車載 アロマ" },
+  { id:"home", name:{ja:"誰も呼ばない夜の部屋",en:"A night in, no guests",zh:"谁也不叫的夜里"}, tags:["close","touch","now"],
+    stats:{close:5,space:3,plan:2,flow:4,talk:3,play:3,words:3,touch:5,future:3,now:5},
+    boost:{ISFJ:92,INFP:88,ISFP:90,INTP:78},
+    why:{ja:"外界を閉じると、相手の普段が出る",en:"Closing the door shows their ordinary",zh:"关上门，才看得到日常的对方"},
+    shop:"アロマキャンドル" },
+  { id:"festival", name:{ja:"祭りの人混みを一緒に抜ける",en:"Leave a festival crowd together",zh:"一起从祭典人潮里穿出去"}, tags:["play","flow","close"],
+    stats:{close:4,space:2,plan:2,flow:5,talk:2,play:5,words:2,touch:4,future:2,now:5},
+    boost:{ESTP:94,ESFP:92,ESFJ:80,ENFP:82},
+    why:{ja:"少しの保護と、少しの冒険が同時に起きる",en:"A little protection, a little thrill",zh:"一点点保护和一点点冒险同时发生"},
+    shop:"浴衣 ペア" },
+  { id:"class", name:{ja:"一度もやったことのない教室",en:"A class neither of you has taken",zh:"两人都没上过的课"}, tags:["play","plan","talk"],
+    stats:{close:3,space:3,plan:4,flow:3,talk:4,play:5,words:3,touch:2,future:3,now:4},
+    boost:{ENTP:92,ENFP:90,ENTJ:80,ESTJ:78},
+    why:{ja:"下手でもいい場所だと、相手の素が出る",en:"Being bad together is intimate",zh:"可以一起笨的地方，会露出本人"},
+    shop:"体験 レッスン ペア" },
+  { id:"dawn", name:{ja:"終電を逃して朝まで話す",en:"Miss the last train on purpose",zh:"故意错过末班车聊到早上"}, tags:["talk","future","close"],
+    stats:{close:5,space:2,plan:1,flow:5,talk:5,play:2,words:5,touch:3,future:4,now:5},
+    boost:{ENFP:94,INFJ:88,ENTP:86,INFP:84},
+    why:{ja:"区切りのない時間が、本音の期限になる",en:"No closing time, so the truth has room",zh:"没有结束点，真话才有地方放"},
+    shop:"ブランケット 大判" },
+];
+
+const amazonUrl = (q) => `https://www.amazon.co.jp/s?k=${encodeURIComponent(q)}&tag=${AMAZON_TAG}`;
+const rakutenUrl = (q) => {
+  const dest = `https://search.rakuten.co.jp/search/mall/${encodeURIComponent(q)}/`;
+  return `https://hb.afl.rakuten.co.jp/hgc/${RAKUTEN_ID}/?pc=${encodeURIComponent(dest)}&m=${encodeURIComponent(dest)}`;
+};
+
+const UI = {
+  ja: {
+    appTitle:"MBTI 恋愛診断", tagline:"性格と、恋愛の進み方を分けて見ます。20問。約3分。",
+    kicker:"好きの型 × 相手との距離",
+    start:"診断する", quick:"短い診断",
+    navHome:"ホーム", navDates:"デートから探す", navTypes:"タイプ", navSaved:"履歴",
+    back:"戻る", questionOf:(n,t)=>`質問 ${n} / ${t}`,
+    save:"この結果を残す", saved:"保存しました", retake:"もう一度",
+    lookType:"タイプページ", invite:"相手のタイプを見る",
+    persona:"恋愛の型", personNote:"実際の提案は、こちらの好みを優先します。",
+    like:"大切にしたい", hate:"負担になりやすい",
+    tonight:"今夜の1手", tonightWhy:"今の好みから、最初にこれを。",
+    fitTitle:"相性のよいデート", avoidTitle:"今は重いかも",
+    pairTitle:"二人の相性", pairPick:"相手のタイプ",
+    pairScore:"関係の進みやすさ",
+    datesTitle:"デートから探す",
+    typesTitle:"16タイプの恋愛",
+    stores:"この夜の小物を探す",
+    fromDate:"このデートは誰向き？",
+    footer:"診断は娯楽の目安です。掲載リンクの一部にはAmazonアソシエイト・楽天アフィリエイトを含みます。",
+    support:"作者にコーヒーを",
+    noSaved:"まだ保存がありません。",
+    load:"この結果を開く", del:"削除",
+    share:"結果を送る", shareX:"X", shareLine:"LINE", shareCopy:"リンク",
+    copied:"コピーしました",
+    how:"流れ", s1:"20問", s1d:"性格12＋恋愛の好み8。", s2:"型が出る", s2d:"MBTIと、密着や余白などの好み。", s3:"1手", s3d:"今夜のデートと、気をつけたい点が分かれる。",
+    compat:"相性の出やすい相手",
+    caution:"気をつけたい点",
+    shareText:(type,love,d)=>`私のMBTIは${type}。恋愛の型は「${love}」。今夜の1手は${d}。 #MBTI #恋愛診断`,
+  },
+  en: {
+    appTitle:"MBTI Love Reading", tagline:"Personality and dating pace, separately. 20 questions.",
+    kicker:"How you love × how close you stand",
+    start:"Start", quick:"Short path",
+    navHome:"Home", navDates:"Dates", navTypes:"Types", navSaved:"Saved",
+    back:"Back", questionOf:(n,t)=>`Q ${n} / ${t}`,
+    save:"Save", saved:"Saved", retake:"Again",
+    lookType:"Type page", invite:"Partner type",
+    persona:"Love style", personNote:"Suggestions follow this, not just the letters.",
+    like:"You protect", hate:"This drains you",
+    tonight:"Tonight's move", tonightWhy:"Start here, given how you date.",
+    fitTitle:"Dates that fit", avoidTitle:"Maybe heavy now",
+    pairTitle:"The two of you", pairPick:"Their type",
+    pairScore:"Ease of pacing",
+    datesTitle:"Browse dates",
+    typesTitle:"16 love styles",
+    stores:"Find pieces for the night",
+    fromDate:"Who is this for?",
+    footer:"For play, not prophecy. Some links are Amazon and Rakuten affiliates.",
+    support:"Coffee for the author",
+    noSaved:"Nothing saved yet.",
+    load:"Open", del:"Delete",
+    share:"Share", shareX:"X", shareLine:"LINE", shareCopy:"Copy",
+    copied:"Copied",
+    how:"How", s1:"20 Qs", s1d:"12 type + 8 dating taste.", s2:"A style", s2d:"Letters plus closeness and space.", s3:"One move", s3d:"Tonight, and what to watch.",
+    compat:"Types that tend to fit",
+    caution:"Watch this",
+    shareText:(type,love,d)=>`I'm ${type} — love style "${love}". Tonight: ${d}.`,
+  },
+  zh: {
+    appTitle:"MBTI 恋爱诊断", tagline:"性格和恋爱推进方式分开看。20题。",
+    kicker:"喜欢的形状 × 和对方的距离",
+    start:"开始", quick:"短测",
+    navHome:"首页", navDates:"约会", navTypes:"类型", navSaved:"记录",
+    back:"返回", questionOf:(n,t)=>`第 ${n} / ${t} 题`,
+    save:"保存", saved:"已保存", retake:"再测",
+    lookType:"类型页", invite:"看对方类型",
+    persona:"恋爱型", personNote:"建议会优先看这里的偏好。",
+    like:"想守住的", hate:"容易累的",
+    tonight:"今晚第一步", tonightWhy:"按你现在的喜欢，先做这个。",
+    fitTitle:"合适的约会", avoidTitle:"现在可能偏重",
+    pairTitle:"两个人的节奏", pairPick:"对方的类型",
+    pairScore:"推进的轻松度",
+    datesTitle:"从约会找",
+    typesTitle:"16种恋爱",
+    stores:"找今晚的小物",
+    fromDate:"这约会适合谁",
+    footer:"仅供娱乐。部分链接含亚马逊、乐天联盟。",
+    support:"请作者喝咖啡",
+    noSaved:"还没有保存。",
+    load:"打开", del:"删除",
+    share:"分享", shareX:"X", shareLine:"LINE", shareCopy:"复制",
+    copied:"已复制",
+    how:"流程", s1:"20题", s1d:"性格12＋恋爱偏好8。", s2:"出型", s2d:"字母，加上贴近和留白。", s3:"一步", s3d:"今晚，以及要小心的点。",
+    compat:"容易合拍的对象",
+    caution:"需要小心",
+    shareText:(type,love,d)=>`我是${type}，恋爱型「${love}」。今晚先：${d}。`,
+  },
+};
+
+function emptyMbti(){ return {E:0,I:0,S:0,N:0,T:0,F:0,J:0,P:0}; }
+function computeType(s){ return (s.E>=s.I?"E":"I")+(s.S>=s.N?"S":"N")+(s.T>=s.F?"T":"F")+(s.J>=s.P?"J":"P"); }
+function emptyPrefs(){ return {close:3,space:3,plan:3,flow:3,talk:3,play:3,words:3,touch:3,future:3,now:3}; }
+function applyPref(prefs, val){
+  const next = {...prefs};
+  const map = {
+    closeHi:{close:5,space:2}, closeLo:{close:2,space:5},
+    talkHi:{talk:5,play:3}, talkLo:{talk:2,touch:4},
+    planHi:{plan:5,flow:2}, planLo:{plan:2,flow:5},
+    wordsHi:{words:5,touch:2}, wordsLo:{words:2,touch:5},
+    futureHi:{future:5,now:2}, futureLo:{future:2,now:5},
+    playHi:{play:5,talk:3}, playLo:{play:2,talk:4},
+    spaceHi:{space:5,close:2}, spaceLo:{space:2,close:5},
+    touchHi:{touch:5,words:2}, touchLo:{touch:2,words:5},
+  };
+  Object.assign(next, map[val]||{});
+  return next;
+}
+function affinity(item, type){ return (item.boost && item.boost[type] != null) ? item.boost[type] : 56; }
+function prefScore(item, prefs){
+  let s=0,w=0;
+  PREF_KEYS.forEach((k)=>{ s += 5-Math.abs((item.stats[k]||3)-(prefs[k]||3)); w += 5; });
+  return (s/w)*100;
+}
+function matchScore(item, type, prefs){ return Math.round(affinity(item,type)*0.4 + prefScore(item,prefs)*0.6); }
+function rankedDates(type, prefs){
+  return DATES.map((d)=>({item:d, score:matchScore(d,type,prefs)})).sort((a,b)=>b.score-a.score);
+}
+function dateReason(item, prefs, lang){
+  const hits = PREF_KEYS.map((k)=>({k,g:item.stats[k]||3,p:prefs[k]||3}))
+    .filter((x)=>x.g>=4 && x.p>=4).sort((a,b)=>(b.g+b.p)-(a.g+a.p));
+  const labels = hits.slice(0,2).map((x)=>PREF_LABEL[lang][x.k]);
+  const why = item.why[lang];
+  if (!labels.length) return why;
+  if (lang==="ja") return why + "。今のあなたは「" + labels.join("・") + "」が強い。";
+  if (lang==="zh") return why + "。你现在偏「" + labels.join(" / ") + "」。";
+  return why + " You are leaning " + labels.join(" / ") + ".";
+}
+function likesHates(prefs, lang){
+  const pairs = [
+    ["close","space", PREF_LABEL[lang].close, PREF_LABEL[lang].space],
+    ["plan","flow", PREF_LABEL[lang].plan, PREF_LABEL[lang].flow],
+    ["talk","play", PREF_LABEL[lang].talk, PREF_LABEL[lang].play],
+    ["words","touch", PREF_LABEL[lang].words, PREF_LABEL[lang].touch],
+    ["future","now", PREF_LABEL[lang].future, PREF_LABEL[lang].now],
+  ];
+  const like=[], hate=[], used=new Set();
+  pairs.forEach(([a,b,la,lb])=>{
+    const va=prefs[a]||3, vb=prefs[b]||3;
+    if (va-vb>=1 && va>=4){ like.push(la); used.add(la); if (vb<=2){ hate.push(lb); used.add(lb);} }
+    else if (vb-va>=1 && vb>=4){ like.push(lb); used.add(lb); if (va<=2){ hate.push(la); used.add(la);} }
+  });
+  return {like:like.slice(0,3), hate:hate.slice(0,3)};
+}
+function pairScore(a,b){
+  if (!a||!b) return 50;
+  let n = 52;
+  if ((COMPAT[a]||[]).includes(b)) n += 18;
+  if (a[0]!==b[0]) n += 6;
+  if (a[2]!==b[2]) n += 4;
+  if (a[3]===b[3]) n += 4;
+  return Math.min(96, n);
+}
+
+const IconHeart = ({size=18, color="#E8B4BC"}) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color} aria-hidden="true"><path d="M12 20s-7-4.4-7-10A4 4 0 0 1 12 7a4 4 0 0 1 7 3c0 5.6-7 10-7 10z"/></svg>
+);
+
+function App(){
+  const [lang, setLang] = useState("ja");
+  const [screen, setScreen] = useState("start");
+  const [qIndex, setQIndex] = useState(0);
+  const [mbti, setMbti] = useState(emptyMbti());
+  const [prefs, setPrefs] = useState(emptyPrefs());
+  const [resultType, setResultType] = useState(null);
+  const [history, setHistory] = useState([]);
+  const [tab, setTab] = useState("fit");
+  const [partner, setPartner] = useState("ENFP");
+  const [saveMsg, setSaveMsg] = useState(false);
+  const [copyMsg, setCopyMsg] = useState(false);
+  const [focusDate, setFocusDate] = useState(null);
+  const t = UI[lang];
+  const current = resultType ? TYPES[resultType] : null;
+  const temp = resultType ? TEMP[temperamentOf(resultType)] : TEMP.NF;
+  const ranked = resultType ? rankedDates(resultType, prefs) : DATES.map((d)=>({item:d, score:prefScore(d,prefs)})).sort((a,b)=>b.score-a.score);
+  const top = ranked.slice(0,6);
+  const avoid = ranked.slice(-4).reverse();
+  const tonight = top[0];
+  const q = QUESTIONS[qIndex];
+  const lh = likesHates(prefs, lang);
+
+  useEffect(()=>{
+    try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) setHistory(JSON.parse(raw)); } catch(e){}
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const shared = (params.get("type")||"").toUpperCase();
+      if (TYPES[shared]) { setResultType(shared); setScreen("result"); }
+    } catch(e){}
+  }, []);
+
+  const startQuiz = () => { setMbti(emptyMbti()); setPrefs(emptyPrefs()); setQIndex(0); setTab("fit"); setScreen("quiz"); };
+  const answer = (val) => {
+    let nextM = mbti, nextP = prefs;
+    if (q.kind==="mbti") nextM = {...mbti, [val]: mbti[val]+1};
+    else nextP = applyPref(prefs, val);
+    setMbti(nextM); setPrefs(nextP);
+    if (qIndex+1 < QUESTIONS.length) setQIndex(qIndex+1);
+    else { setResultType(computeType(nextM)); setScreen("result"); }
+  };
+  const saveResult = () => {
+    const entry = { type:resultType, date:new Date().toISOString().slice(0,10), prefs:{...prefs}, top: tonight && tonight.item.name.ja };
+    const next = [entry, ...history].slice(0,20);
+    setHistory(next);
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); setSaveMsg(true); setTimeout(()=>setSaveMsg(false),1600);} catch(e){}
+  };
+  const shareUrl = () => {
+    try { const u = new URL(window.location.href); if (resultType) u.searchParams.set("type", resultType); return u.toString(); }
+    catch(e){ return window.location.href; }
+  };
+  const shareMessage = current && tonight ? t.shareText(resultType, current.love[lang], tonight.item.name[lang]) : "";
+
+  const DateCard = ({row, compact}) => {
+    const d = row.item;
+    return (
+      <div style={{...s.card, borderLeft:`3px solid ${temp.accent}`}}>
+        <div style={s.rowBetween}>
+          <button style={s.dateName} onClick={()=>{ setFocusDate(d); setScreen("date"); }}>{d.name[lang]}</button>
+          <span style={{color:temp.accent, fontWeight:700}}>{row.score}%</span>
+        </div>
+        <p style={s.muted}>{dateReason(d, prefs, lang)}</p>
+        {!compact && (
+          <div style={s.storeRow}>
+            <span style={s.storeLabel}>{t.stores}</span>
+            <a href={amazonUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn}>Amazon</a>
+            <a href={rakutenUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn}>楽天</a>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <div style={s.app}>
+      <header style={s.header}>
+        <div style={s.headerInner}>
+          <button style={s.brand} onClick={()=>setScreen("start")}>
+            <span style={s.brandMark}><IconHeart size={14} color="#140C10" /></span>
+            <span className="display" style={s.brandName}>{t.appTitle}</span>
+          </button>
+          <nav style={s.nav}>
+            {[["start",t.navHome],["dates",t.navDates],["types",t.navTypes],["saved",t.navSaved]].map(([id,lab])=>(
+              <button key={id} onClick={()=>setScreen(id)} style={{...s.navBtn, ...(screen===id?s.navOn:{})}}>{lab}</button>
+            ))}
+          </nav>
+          <div style={{display:"flex", gap:6}}>
+            {["ja","en","zh"].map((c)=>(
+              <button key={c} onClick={()=>setLang(c)} style={{...s.lang, borderColor: lang===c?"#E8B4BC":"#3A242C", color: lang===c?"#F3E6D8":"#B9A59A"}}>{c==="ja"?"日本語":c==="en"?"EN":"中文"}</button>
+            ))}
+          </div>
+        </div>
+      </header>
+
+      <main style={s.wrap}>
+        {screen==="start" && (
+          <section style={s.hero}>
+            <div style={{opacity:.8, marginBottom:8}}><IconHeart /> <IconHeart color="#C9A06A" /> <IconHeart color="#F3E6D8" /></div>
+            <p className="display" style={s.kicker}>{t.kicker}</p>
+            <h1 className="display" style={s.title}>{t.appTitle}</h1>
+            <p style={s.lead}>{t.tagline}</p>
+            <button style={s.primary} onClick={startQuiz}>{t.start}</button>
+            <div style={s.grid3}>
+              {[[t.s1,t.s1d],[t.s2,t.s2d],[t.s3,t.s3d]].map(([h,d])=>(
+                <div key={h} style={s.step}><div className="display" style={s.stepH}>{h}</div><p style={s.muted}>{d}</p></div>
+              ))}
+            </div>
+            <h2 className="display" style={s.h2}>{t.typesTitle}</h2>
+            <div style={s.mosaic}>
+              {ALL_TYPES.map((code)=>{
+                const c = TEMP[temperamentOf(code)];
+                return <button key={code} onClick={()=>{ setResultType(code); setScreen("type"); }} className="display" style={{...s.chip, color:c.accent, borderColor:c.accent+"55"}}>{code}</button>;
+              })}
+            </div>
+          </section>
+        )}
+
+        {screen==="quiz" && q && (
+          <div style={{paddingTop:28}}>
+            <p style={s.muted}>{t.questionOf(qIndex+1, QUESTIONS.length)} · {q.kind==="mbti"?"MBTI":lang==="ja"?"恋愛":"LOVE"}</p>
+            <div style={s.bar}><div style={{...s.barIn, width:`${(qIndex/QUESTIONS.length)*100}%`}} /></div>
+            <h2 className="display" style={s.q}>{q.text[lang]}</h2>
+            <div style={{display:"flex", flexDirection:"column", gap:10}}>
+              <button style={s.opt} onClick={()=>answer(q.aVal)}>{q.a[lang]}</button>
+              <button style={s.opt} onClick={()=>answer(q.bVal)}>{q.b[lang]}</button>
+            </div>
+            {qIndex>0 && <button style={s.linkBtn} onClick={()=>setQIndex(qIndex-1)}>{t.back}</button>}
+          </div>
+        )}
+
+        {screen==="result" && current && (
+          <div style={{paddingTop:20}}>
+            <p className="display" style={s.kicker}>{t.persona}</p>
+            <div style={{display:"flex", gap:12, alignItems:"baseline", flexWrap:"wrap"}}>
+              <span className="display" style={{fontSize:48, color:temp.accent, fontWeight:700}}>{resultType}</span>
+              <span className="display" style={{fontSize:22}}>{current.love[lang]}</span>
+            </div>
+            <p style={s.lead}>{current.blurb[lang]}</p>
+
+            {tonight && (
+              <div style={s.tonight}>
+                <p className="display" style={{letterSpacing:3, color:"#E8B4BC", fontSize:13, margin:"0 0 8px"}}>{t.tonight}</p>
+                <button className="display" style={s.tonightName} onClick={()=>{ setFocusDate(tonight.item); setScreen("date"); }}>{tonight.item.name[lang]}</button>
+                <p style={{margin:"8px 0"}}>{dateReason(tonight.item, prefs, lang)}</p>
+                <p style={s.muted}>{t.tonightWhy}</p>
+                <div style={s.storeRow}>
+                  <a href={amazonUrl(tonight.item.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn}>Amazon</a>
+                  <a href={rakutenUrl(tonight.item.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn}>楽天</a>
+                </div>
+              </div>
+            )}
+
+            <div style={s.card}>
+              <p className="display" style={s.kicker}>{t.persona}</p>
+              <p style={s.muted}>{t.personNote}</p>
+              <p>{t.like}: {lh.like.join(" / ") || "—"}</p>
+              <p>{t.hate}: {lh.hate.join(" / ") || "—"}</p>
+              <p style={s.muted}>{t.compat}: {(COMPAT[resultType]||[]).join(" / ")}</p>
+              <p style={s.muted}>{t.caution}: {current.caution[lang]}</p>
+            </div>
+
+            <div style={s.mosaic}>
+              {[["fit",t.fitTitle],["avoid",t.avoidTitle],["pair",t.pairTitle]].map(([id,lab])=>(
+                <button key={id} onClick={()=>setTab(id)} style={{...s.chip, borderColor: tab===id?temp.accent:"#3A242C", color: tab===id?temp.accent:"#F3E6D8"}}>{lab}</button>
+              ))}
+            </div>
+            {tab==="fit" && top.map((row)=><DateCard key={row.item.id} row={row} compact />)}
+            {tab==="avoid" && avoid.map((row)=><DateCard key={row.item.id} row={row} />)}
+            {tab==="pair" && (
+              <div>
+                <p style={s.muted}>{t.pairPick}</p>
+                <div style={s.mosaic}>
+                  {ALL_TYPES.map((code)=>(
+                    <button key={code} onClick={()=>setPartner(code)} className="display" style={{...s.chip, color: partner===code?temp.accent:"#B9A59A", borderColor: partner===code?temp.accent:"#3A242C"}}>{code}</button>
+                  ))}
+                </div>
+                <div style={s.card}>
+                  <p className="display" style={{fontSize:28, margin:"0 0 8px"}}>{t.pairScore} {pairScore(resultType, partner)}%</p>
+                  <p style={s.muted}>{TYPES[partner].love[lang]}</p>
+                  <p>{TYPES[partner].blurb[lang]}</p>
+                </div>
+              </div>
+            )}
+
+            <div style={{display:"flex", gap:8, flexWrap:"wrap", marginTop:18}}>
+              <button style={s.primary} onClick={saveResult}>{saveMsg?t.saved:t.save}</button>
+              <button style={s.ghost} onClick={()=>setTab("pair")}>{t.invite}</button>
+              <button style={s.ghost} onClick={startQuiz}>{t.retake}</button>
+              <button style={s.ghost} onClick={()=>setScreen("type")}>{t.lookType}</button>
+            </div>
+            <div style={{marginTop:24}}>
+              <p style={s.muted}>{t.share}</p>
+              <div style={{display:"flex", gap:8, flexWrap:"wrap"}}>
+                <button style={s.ghost} onClick={()=>window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareMessage)}&url=${encodeURIComponent(shareUrl())}`,"_blank")}>{t.shareX}</button>
+                <button style={s.ghost} onClick={()=>window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl())}`,"_blank")}>{t.shareLine}</button>
+                <button style={s.ghost} onClick={async()=>{ try{ await navigator.clipboard.writeText(shareUrl()); }catch(e){} setCopyMsg(true); setTimeout(()=>setCopyMsg(false),1600); }}>{copyMsg?t.copied:t.shareCopy}</button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {screen==="type" && resultType && TYPES[resultType] && (
+          <div style={{paddingTop:24}}>
+            <p className="display" style={s.kicker}>{t.typesTitle}</p>
+            <h1 className="display" style={{color:temp.accent, fontSize:48, margin:"0 0 8px"}}>{resultType}</h1>
+            <p className="display" style={{fontSize:24}}>{TYPES[resultType].love[lang]}</p>
+            <p style={s.lead}>{TYPES[resultType].blurb[lang]}</p>
+            <p style={s.muted}>{t.caution}: {TYPES[resultType].caution[lang]}</p>
+            <h2 className="display" style={s.h2}>{t.fitTitle}</h2>
+            {rankedDates(resultType, emptyPrefs()).slice(0,8).map((row,i)=>(
+              <div key={row.item.id} style={s.rank}><span style={{color:temp.accent}}>{i+1}</span> {row.item.name[lang]} <span style={{marginLeft:"auto", color:temp.accent}}>{row.score}%</span></div>
+            ))}
+            <button style={{...s.primary, marginTop:16}} onClick={()=>setScreen("result")}>{t.lookType}</button>
+          </div>
+        )}
+
+        {screen==="types" && (
+          <div style={{paddingTop:24}}>
+            <h1 className="display" style={s.h2}>{t.typesTitle}</h1>
+            <div style={s.mosaic}>
+              {ALL_TYPES.map((code)=>{
+                const c = TEMP[temperamentOf(code)];
+                return <button key={code} onClick={()=>{ setResultType(code); setScreen("type"); }} className="display" style={{...s.chip, color:c.accent, borderColor:c.accent+"55"}}>{code}<br/><span style={{fontSize:11, fontWeight:400, color:"#B9A59A"}}>{TYPES[code].love[lang]}</span></button>;
+              })}
+            </div>
+          </div>
+        )}
+
+        {screen==="dates" && (
+          <div style={{paddingTop:24}}>
+            <h1 className="display" style={s.h2}>{t.datesTitle}</h1>
+            {DATES.map((d)=>(
+              <div key={d.id} style={s.card}>
+                <button style={s.dateName} onClick={()=>{ setFocusDate(d); setScreen("date"); }}>{d.name[lang]}</button>
+                <p style={s.muted}>{d.why[lang]}</p>
+                <div style={s.storeRow}>
+                  <span style={s.storeLabel}>{t.stores}</span>
+                  <a href={amazonUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn}>Amazon</a>
+                  <a href={rakutenUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn}>楽天</a>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {screen==="date" && focusDate && (
+          <div style={{paddingTop:24}}>
+            <p className="display" style={s.kicker}>{t.fromDate}</p>
+            <h1 className="display" style={s.title}>{focusDate.name[lang]}</h1>
+            <p style={s.lead}>{focusDate.why[lang]}</p>
+            {resultType && <p>{matchScore(focusDate, resultType, prefs)}% · {dateReason(focusDate, prefs, lang)}</p>}
+            <div style={s.card}>
+              {PREF_KEYS.map((k)=>(
+                <div key={k} style={s.stat}><span>{PREF_LABEL[lang][k]}</span><span>{"●".repeat(focusDate.stats[k]||3)}{"○".repeat(5-(focusDate.stats[k]||3))}</span></div>
+              ))}
+            </div>
+            <h2 className="display" style={s.h2}>{t.typesTitle}</h2>
+            {ALL_TYPES.map((code)=>({code, score:affinity(focusDate, code)})).sort((a,b)=>b.score-a.score).slice(0,8).map((row)=>(
+              <button key={row.code} style={s.rank} onClick={()=>{ setResultType(row.code); setScreen("type"); }}>
+                <span>{row.code}</span><span style={{marginLeft:"auto"}}>{row.score}%</span>
+              </button>
+            ))}
+            <div style={{...s.storeRow, marginTop:16}}>
+              <span style={s.storeLabel}>{t.stores}</span>
+              <a href={amazonUrl(focusDate.shop)} target="_blank" rel="noreferrer sponsored" style={s.primary}>Amazon</a>
+              <a href={rakutenUrl(focusDate.shop)} target="_blank" rel="noreferrer sponsored" style={s.ghost}>楽天</a>
+            </div>
+          </div>
+        )}
+
+        {screen==="saved" && (
+          <div style={{paddingTop:24}}>
+            <h1 className="display" style={s.h2}>{t.navSaved}</h1>
+            {history.length===0 ? <p style={s.muted}>{t.noSaved}</p> : history.map((h,i)=>(
+              <div key={i} style={s.rank}>
+                <b>{h.type}</b> <span style={s.muted}>{h.date}{h.top?` · ${h.top}`:""}</span>
+                <button style={s.ghost} onClick={()=>{ setResultType(h.type); if(h.prefs) setPrefs(h.prefs); setScreen("result"); }}>{t.load}</button>
+                <button style={s.linkBtn} onClick={()=>{ const n=history.filter((_,j)=>j!==i); setHistory(n); try{localStorage.setItem(STORAGE_KEY, JSON.stringify(n));}catch(e){} }}>{t.del}</button>
+              </div>
+            ))}
+          </div>
+        )}
+      </main>
+
+      {screen!=="quiz" && (
+        <footer style={s.footer}>
+          <a href={SUPPORT_URL} target="_blank" rel="noreferrer" style={{color:"#C9A06A", textDecoration:"none"}}>☕ {t.support}</a>
+          <p style={s.fine}>{t.footer}</p>
+        </footer>
+      )}
+    </div>
+  );
+}
+
+const s = {
+  app:{minHeight:"100vh", background:"#140C10", color:"#F3E6D8"},
+  header:{position:"sticky", top:0, zIndex:10, borderBottom:"1px solid #2A171D", background:"#140C10ee", backdropFilter:"blur(8px)"},
+  headerInner:{maxWidth:760, margin:"0 auto", padding:"14px 20px", display:"flex", gap:12, alignItems:"center", flexWrap:"wrap"},
+  brand:{display:"flex", alignItems:"center", gap:8, background:"transparent", border:"none", color:"#F3E6D8", cursor:"pointer", padding:0, marginRight:"auto"},
+  brandMark:{width:24, height:24, borderRadius:999, background:"#E8B4BC", display:"flex", alignItems:"center", justifyContent:"center"},
+  brandName:{fontSize:18, fontWeight:600},
+  nav:{display:"flex", gap:4, background:"#24151A", borderRadius:999, padding:4, flexWrap:"wrap"},
+  navBtn:{background:"transparent", border:"none", color:"#B9A59A", padding:"7px 10px", borderRadius:999, cursor:"pointer", fontSize:12},
+  navOn:{background:"#E8B4BC", color:"#140C10"},
+  lang:{background:"#24151A", border:"1px solid", borderRadius:999, padding:"5px 9px", fontSize:11, cursor:"pointer"},
+  wrap:{maxWidth:760, margin:"0 auto", padding:"0 20px 40px"},
+  hero:{padding:"48px 0 20px"},
+  kicker:{letterSpacing:3, color:"#E8B4BC", fontSize:13, margin:"0 0 8px"},
+  title:{fontSize:42, lineHeight:1.15, margin:"0 0 14px", fontWeight:600},
+  lead:{color:"#C9B4A8", fontSize:16, lineHeight:1.7, maxWidth:520},
+  primary:{background:"#E8B4BC", color:"#140C10", border:"none", borderRadius:999, padding:"12px 22px", fontWeight:700, cursor:"pointer"},
+  ghost:{background:"transparent", color:"#F3E6D8", border:"1px solid #3A242C", borderRadius:999, padding:"10px 16px", cursor:"pointer"},
+  grid3:{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(170px,1fr))", gap:12, marginTop:28},
+  step:{background:"#24151A", border:"1px solid #3A242C", borderRadius:16, padding:16},
+  stepH:{fontSize:20, marginBottom:6},
+  h2:{fontSize:26, margin:"28px 0 12px"},
+  mosaic:{display:"flex", flexWrap:"wrap", gap:8, margin:"8px 0 16px"},
+  chip:{background:"#24151A", border:"1px solid", borderRadius:12, padding:"8px 10px", cursor:"pointer", color:"#F3E6D8", textAlign:"left"},
+  bar:{height:4, background:"#2A171D", borderRadius:99, overflow:"hidden", margin:"8px 0 22px"},
+  barIn:{height:"100%", background:"#E8B4BC"},
+  q:{fontSize:26, lineHeight:1.45, margin:"0 0 18px"},
+  opt:{background:"#24151A", border:"1px solid #3A242C", borderRadius:14, padding:16, color:"#F3E6D8", textAlign:"left", cursor:"pointer", fontSize:15},
+  linkBtn:{background:"transparent", border:"none", color:"#B9A59A", textDecoration:"underline", marginTop:16, cursor:"pointer"},
+  card:{background:"#24151A", border:"1px solid #3A242C", borderRadius:16, padding:16, margin:"10px 0"},
+  muted:{color:"#B9A59A", fontSize:14, lineHeight:1.6},
+  tonight:{background:"#24151A", border:"1px solid #E8B4BC55", borderRadius:18, padding:18, margin:"8px 0 18px"},
+  tonightName:{background:"transparent", border:"none", color:"#F3E6D8", fontSize:28, padding:0, cursor:"pointer", textDecoration:"underline", textUnderlineOffset:4},
+  rowBetween:{display:"flex", justifyContent:"space-between", gap:12, alignItems:"baseline"},
+  dateName:{background:"transparent", border:"none", color:"#F3E6D8", fontSize:18, fontWeight:700, padding:0, cursor:"pointer", textAlign:"left"},
+  storeRow:{display:"flex", flexWrap:"wrap", gap:8, alignItems:"center", marginTop:10},
+  storeLabel:{fontSize:12, color:"#8F7A72"},
+  storeBtn:{display:"inline-flex", textDecoration:"none", color:"#F3E6D8", border:"1px solid #3A242C", borderRadius:999, padding:"6px 12px", fontSize:12},
+  rank:{display:"flex", gap:10, alignItems:"center", width:"100%", padding:"10px 0", borderBottom:"1px solid #2A171D", background:"transparent", color:"#F3E6D8", borderLeft:0, borderRight:0, borderTop:0, cursor:"pointer"},
+  stat:{display:"flex", justifyContent:"space-between", padding:"6px 0", borderBottom:"1px solid #2A171D", fontSize:14, color:"#C9B4A8"},
+  footer:{borderTop:"1px solid #2A171D", maxWidth:760, margin:"20px auto 0", padding:"24px 20px 36px"},
+  fine:{color:"#8F7A72", fontSize:12, lineHeight:1.6},
+};
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+</body>
+</html>
