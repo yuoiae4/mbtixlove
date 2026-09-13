@@ -3,9 +3,61 @@
 <head>
 <meta charset="UTF-8" />
 <title>MBTI 恋愛診断 | 好きの型と、合う相手を知る</title>
-<meta name="description" content="MBTI恋愛診断。20問で性格と恋愛の好みを分けて判定。合う相手、デートの1手、気をつけたい点まで。無料・登録不要。" />
+<meta name="description" content="MBTI恋愛診断。20問で性格と恋愛の好みを分けて判定。合う相手、デートの一手、気をつけたい点まで。無料・登録不要。" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="canonical" href="mbti-love.html" />
+<!-- TODO: 実際に公開するドメインに差し替えてください（例: https://example.com/mbti-love.html） -->
+<link rel="canonical" href="https://example.com/mbti-love.html" />
+
+<!-- ▼ アクセス解析（GA4）。G-XXXXXXXXXX をご自身の測定IDに差し替えてください -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true });
+</script>
+
+<!-- ▼ 構造化データ（検索結果での表示向上を狙う） -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "MBTI 恋愛診断",
+  "description": "20問でMBTIタイプと恋愛の好みを診断し、相性のよいデートや相手のタイプとの相性を提案するWeb診断。",
+  "about": { "@type": "Thing", "name": "MBTI・恋愛診断" },
+  "educationalLevel": "beginner",
+  "isAccessibleForFree": true,
+  "inLanguage": ["ja","en","zh"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "MBTI恋愛診断はどうやって結果を出していますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "性格を判定する12問のMBTI設問と、恋愛の距離感や好みを判定する8問の設問を分けて集計しています。MBTIタイプと、密着・余白・言葉・気配などの好みの両方から、合うデートや気をつけたい点を提案します。" }
+    },
+    {
+      "@type": "Question",
+      "name": "診断結果は保存できますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "「この結果を残す」ボタンでブラウザ内（localStorage）に保存できます。会員登録は不要ですが、ブラウザやデバイスを変えると履歴は引き継がれません。" }
+    },
+    {
+      "@type": "Question",
+      "name": "相手のタイプとの相性も分かりますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "結果画面の「二人の相性」タブで、相手のMBTIタイプを選ぶと相性スコアと相手の恋愛スタイルの傾向が表示されます。" }
+    },
+    {
+      "@type": "Question",
+      "name": "この診断は科学的根拠がありますか？",
+      "acceptedAnswer": { "@type": "Answer", "text": "MBTIおよび本診断は心理学的な診断ツールではなく、娯楽目的の性格診断です。恋愛相性を保証するものではありません。" }
+    }
+  ]
+}
+</script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23140C10'/%3E%3Cpath d='M32 48s-14-9-14-19c0-6 4-10 9-10 3 0 5 2 5 2s2-2 5-2c5 0 9 4 9 10 0 10-14 19-14 19z' fill='%23E8B4BC'/%3E%3C/svg%3E" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="MBTI 恋愛診断 | 好きの型が分かる" />
@@ -273,7 +325,7 @@ const UI = {
     lookType:"タイプページ", invite:"相手のタイプを見る",
     persona:"恋愛の型", personNote:"実際の提案は、こちらの好みを優先します。",
     like:"大切にしたい", hate:"負担になりやすい",
-    tonight:"今夜の1手", tonightWhy:"今の好みから、最初にこれを。",
+    tonight:"今夜の一手", tonightWhy:"今の好みから、最初にこれを。",
     fitTitle:"相性のよいデート", avoidTitle:"今は重いかも",
     pairTitle:"二人の相性", pairPick:"相手のタイプ",
     pairScore:"関係の進みやすさ",
@@ -287,10 +339,12 @@ const UI = {
     load:"この結果を開く", del:"削除",
     share:"結果を送る", shareX:"X", shareLine:"LINE", shareCopy:"リンク",
     copied:"コピーしました",
-    how:"流れ", s1:"20問", s1d:"性格12＋恋愛の好み8。", s2:"型が出る", s2d:"MBTIと、密着や余白などの好み。", s3:"1手", s3d:"今夜のデートと、気をつけたい点が分かれる。",
+    how:"流れ", s1:"20問", s1d:"性格12＋恋愛の好み8。", s2:"型が出る", s2d:"MBTIと、密着や余白などの好み。", s3:"一手", s3d:"今夜のデートと、気をつけたい点が分かれる。",
     compat:"相性の出やすい相手",
     caution:"気をつけたい点",
-    shareText:(type,love,d)=>`私のMBTIは${type}。恋愛の型は「${love}」。今夜の1手は${d}。 #MBTI #恋愛診断`,
+    shareText:(type,love,d)=>`私のMBTIは${type}。恋愛の型は「${love}」。今夜の一手は${d}。 #MBTI #恋愛診断`,
+    faqTitle:"よくある質問",
+    shareImg:"画像で保存/共有",
   },
   en: {
     appTitle:"MBTI Love Reading", tagline:"Personality and dating pace, separately. 20 questions.",
@@ -320,6 +374,8 @@ const UI = {
     compat:"Types that tend to fit",
     caution:"Watch this",
     shareText:(type,love,d)=>`I'm ${type} — love style "${love}". Tonight: ${d}.`,
+    faqTitle:"FAQ",
+    shareImg:"Save / share image",
   },
   zh: {
     appTitle:"MBTI 恋爱诊断", tagline:"性格和恋爱推进方式分开看。20题。",
@@ -349,6 +405,8 @@ const UI = {
     compat:"容易合拍的对象",
     caution:"需要小心",
     shareText:(type,love,d)=>`我是${type}，恋爱型「${love}」。今晚先：${d}。`,
+    faqTitle:"常见问题",
+    shareImg:"保存/分享图片",
   },
 };
 
@@ -416,6 +474,36 @@ function pairScore(a,b){
   return Math.min(96, n);
 }
 
+function wrapText(ctx, text, x, y, maxWidth, lineHeight, maxLines){
+  const chars = String(text||"").split("");
+  let line = "", cy = y, lines = 0;
+  for (let i=0;i<chars.length;i++){
+    const test = line + chars[i];
+    if (ctx.measureText(test).width > maxWidth && line){
+      ctx.fillText(line, x, cy);
+      line = chars[i]; cy += lineHeight; lines++;
+      if (maxLines && lines>=maxLines){ return cy; }
+    } else line = test;
+  }
+  if (line) ctx.fillText(line, x, cy);
+  return cy + lineHeight;
+}
+
+function track(name, params){
+  try { if (typeof window.gtag === "function") window.gtag("event", name, params||{}); } catch(e){}
+}
+
+const FAQS = [
+  { q:{ja:"MBTI恋愛診断はどうやって結果を出していますか？",en:"How is the result calculated?",zh:"结果是怎么算出来的？"},
+    a:{ja:"性格を判定する12問と、恋愛の距離感・好みを判定する8問を分けて集計します。MBTIタイプと好みの両方から、合うデートや気をつけたい点を提案します。",en:"12 questions score personality, 8 score dating preferences. Both feed the date suggestions and cautions.",zh:"12题判定性格，8题判定恋爱偏好，两者一起生成约会建议和注意点。"} },
+  { q:{ja:"診断結果は保存できますか？",en:"Can I save my result?",zh:"结果可以保存吗？"},
+    a:{ja:"「この結果を残す」でブラウザ内に保存できます。会員登録は不要ですが、端末を変えると引き継がれません。",en:"Yes, saved locally in your browser. No account needed, but it won't sync across devices.",zh:"可以保存在浏览器本地，无需注册，但换设备不会同步。"} },
+  { q:{ja:"相手のタイプとの相性も分かりますか？",en:"Can I check compatibility with a partner's type?",zh:"能看和对方类型的合适度吗？"},
+    a:{ja:"結果画面の「二人の相性」タブで相手のタイプを選ぶと、相性スコアと傾向が出ます。",en:"On the result screen, open 'The two of you' and pick their type.",zh:"在结果页的两个人的节奏里选对方类型即可。"} },
+  { q:{ja:"この診断は科学的根拠がありますか？",en:"Is this scientifically validated?",zh:"这个诊断有科学依据吗？"},
+    a:{ja:"娯楽目的の性格診断であり、心理学的な診断ツールではありません。恋愛相性を保証するものではありません。",en:"This is for entertainment, not a validated psychological instrument.",zh:"仅供娱乐，不是经过验证的心理学工具。"} },
+];
+
 const IconHeart = ({size=18, color="#E8B4BC"}) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill={color} aria-hidden="true"><path d="M12 20s-7-4.4-7-10A4 4 0 0 1 12 7a4 4 0 0 1 7 3c0 5.6-7 10-7 10z"/></svg>
 );
@@ -452,26 +540,78 @@ function App(){
     } catch(e){}
   }, []);
 
-  const startQuiz = () => { setMbti(emptyMbti()); setPrefs(emptyPrefs()); setQIndex(0); setTab("fit"); setScreen("quiz"); };
+  const startQuiz = () => { track("quiz_start"); setMbti(emptyMbti()); setPrefs(emptyPrefs()); setQIndex(0); setTab("fit"); setScreen("quiz"); };
   const answer = (val) => {
     let nextM = mbti, nextP = prefs;
     if (q.kind==="mbti") nextM = {...mbti, [val]: mbti[val]+1};
     else nextP = applyPref(prefs, val);
     setMbti(nextM); setPrefs(nextP);
     if (qIndex+1 < QUESTIONS.length) setQIndex(qIndex+1);
-    else { setResultType(computeType(nextM)); setScreen("result"); }
+    else { const rt = computeType(nextM); track("quiz_complete", { type: rt }); setResultType(rt); setScreen("result"); }
   };
   const saveResult = () => {
     const entry = { type:resultType, date:new Date().toISOString().slice(0,10), prefs:{...prefs}, top: tonight && tonight.item.name.ja };
     const next = [entry, ...history].slice(0,20);
     setHistory(next);
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); setSaveMsg(true); setTimeout(()=>setSaveMsg(false),1600);} catch(e){}
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); setSaveMsg(true); setTimeout(()=>setSaveMsg(false),1600); track("save_result", { type: resultType }); } catch(e){}
   };
   const shareUrl = () => {
     try { const u = new URL(window.location.href); if (resultType) u.searchParams.set("type", resultType); return u.toString(); }
     catch(e){ return window.location.href; }
   };
   const shareMessage = current && tonight ? t.shareText(resultType, current.love[lang], tonight.item.name[lang]) : "";
+
+  const buildShareCanvas = () => {
+    if (!current) return null;
+    const w = 1000, h = 1000;
+    const canvas = document.createElement("canvas");
+    canvas.width = w; canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#140C10"; ctx.fillRect(0,0,w,h);
+    ctx.fillStyle = temp.accent + "2A";
+    ctx.beginPath(); ctx.arc(w-100,130,230,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(110,h-140,190,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle = "#B9A59A"; ctx.font = "500 26px 'Zen Kaku Gothic New', sans-serif";
+    ctx.fillText(t.appTitle, 56, 90);
+    ctx.fillStyle = temp.accent; ctx.font = "700 170px Georgia, serif";
+    ctx.fillText(resultType, 56, 300);
+    ctx.fillStyle = "#F3E6D8"; ctx.font = "600 46px Georgia, serif";
+    let cy = wrapText(ctx, current.love[lang], 56, 380, w-112, 54, 2);
+    ctx.fillStyle = "#C9B4A8"; ctx.font = "400 26px 'Zen Kaku Gothic New', sans-serif";
+    wrapText(ctx, current.blurb[lang], 56, cy+20, w-112, 38, 3);
+    if (tonight){
+      ctx.fillStyle = temp.accent; ctx.font = "600 22px 'Zen Kaku Gothic New', sans-serif";
+      ctx.fillText("♥ " + t.tonight, 56, h-170);
+      ctx.fillStyle = "#F3E6D8"; ctx.font = "500 34px Georgia, serif";
+      wrapText(ctx, tonight.item.name[lang], 56, h-125, w-112, 40, 1);
+    }
+    ctx.fillStyle = "#8F7A72"; ctx.font = "400 20px monospace";
+    ctx.fillText(shareUrl().replace(/^https?:\/\//,""), 56, h-38);
+    return canvas;
+  };
+
+  const shareImage = async () => {
+    const canvas = buildShareCanvas();
+    if (!canvas) return;
+    canvas.toBlob(async (blob) => {
+      if (!blob) return;
+      const filename = `mbti-love-${resultType}.png`;
+      try {
+        const file = new File([blob], filename, { type: "image/png" });
+        if (navigator.canShare && navigator.canShare({ files:[file] })) {
+          await navigator.share({ files:[file], title:t.appTitle, text:shareMessage });
+          track("share_image", { method:"native", type:resultType });
+          return;
+        }
+      } catch(e){}
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(()=>URL.revokeObjectURL(url), 4000);
+      track("share_image", { method:"download", type:resultType });
+    }, "image/png");
+  };
 
   const DateCard = ({row, compact}) => {
     const d = row.item;
@@ -485,8 +625,8 @@ function App(){
         {!compact && (
           <div style={s.storeRow}>
             <span style={s.storeLabel}>{t.stores}</span>
-            <a href={amazonUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn}>Amazon</a>
-            <a href={rakutenUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn}>楽天</a>
+            <a href={amazonUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"amazon", shop:d.shop, type:resultType})}>Amazon</a>
+            <a href={rakutenUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"rakuten", shop:d.shop, type:resultType})}>楽天</a>
           </div>
         )}
       </div>
@@ -534,6 +674,13 @@ function App(){
                 return <button key={code} onClick={()=>{ setResultType(code); setScreen("type"); }} className="display" style={{...s.chip, color:c.accent, borderColor:c.accent+"55"}}>{code}</button>;
               })}
             </div>
+            <h2 className="display" style={s.h2}>{t.faqTitle}</h2>
+            {FAQS.map((f,i)=>(
+              <details key={i} style={s.faq}>
+                <summary style={s.faqQ}>{f.q[lang]}</summary>
+                <p style={s.muted}>{f.a[lang]}</p>
+              </details>
+            ))}
           </section>
         )}
 
@@ -566,8 +713,8 @@ function App(){
                 <p style={{margin:"8px 0"}}>{dateReason(tonight.item, prefs, lang)}</p>
                 <p style={s.muted}>{t.tonightWhy}</p>
                 <div style={s.storeRow}>
-                  <a href={amazonUrl(tonight.item.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn}>Amazon</a>
-                  <a href={rakutenUrl(tonight.item.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn}>楽天</a>
+                  <a href={amazonUrl(tonight.item.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"amazon", shop:tonight.item.shop, type:resultType, placement:"tonight"})}>Amazon</a>
+                  <a href={rakutenUrl(tonight.item.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"rakuten", shop:tonight.item.shop, type:resultType, placement:"tonight"})}>楽天</a>
                 </div>
               </div>
             )}
@@ -613,9 +760,10 @@ function App(){
             <div style={{marginTop:24}}>
               <p style={s.muted}>{t.share}</p>
               <div style={{display:"flex", gap:8, flexWrap:"wrap"}}>
-                <button style={s.ghost} onClick={()=>window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareMessage)}&url=${encodeURIComponent(shareUrl())}`,"_blank")}>{t.shareX}</button>
-                <button style={s.ghost} onClick={()=>window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl())}`,"_blank")}>{t.shareLine}</button>
+                <button style={s.ghost} onClick={()=>{ track("share_click",{method:"x", type:resultType}); window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareMessage)}&url=${encodeURIComponent(shareUrl())}`,"_blank"); }}>{t.shareX}</button>
+                <button style={s.ghost} onClick={()=>{ track("share_click",{method:"line", type:resultType}); window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl())}`,"_blank"); }}>{t.shareLine}</button>
                 <button style={s.ghost} onClick={async()=>{ try{ await navigator.clipboard.writeText(shareUrl()); }catch(e){} setCopyMsg(true); setTimeout(()=>setCopyMsg(false),1600); }}>{copyMsg?t.copied:t.shareCopy}</button>
+                <button style={s.ghost} onClick={shareImage}>{t.shareImg}</button>
               </div>
             </div>
           </div>
@@ -657,8 +805,8 @@ function App(){
                 <p style={s.muted}>{d.why[lang]}</p>
                 <div style={s.storeRow}>
                   <span style={s.storeLabel}>{t.stores}</span>
-                  <a href={amazonUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn}>Amazon</a>
-                  <a href={rakutenUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn}>楽天</a>
+                  <a href={amazonUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"amazon", shop:d.shop, placement:"list"})}>Amazon</a>
+                  <a href={rakutenUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"rakuten", shop:d.shop, placement:"list"})}>楽天</a>
                 </div>
               </div>
             ))}
@@ -684,8 +832,8 @@ function App(){
             ))}
             <div style={{...s.storeRow, marginTop:16}}>
               <span style={s.storeLabel}>{t.stores}</span>
-              <a href={amazonUrl(focusDate.shop)} target="_blank" rel="noreferrer sponsored" style={s.primary}>Amazon</a>
-              <a href={rakutenUrl(focusDate.shop)} target="_blank" rel="noreferrer sponsored" style={s.ghost}>楽天</a>
+              <a href={amazonUrl(focusDate.shop)} target="_blank" rel="noreferrer sponsored" style={s.primary} onClick={()=>track("affiliate_click",{store:"amazon", shop:focusDate.shop, placement:"detail"})}>Amazon</a>
+              <a href={rakutenUrl(focusDate.shop)} target="_blank" rel="noreferrer sponsored" style={s.ghost} onClick={()=>track("affiliate_click",{store:"rakuten", shop:focusDate.shop, placement:"detail"})}>楽天</a>
             </div>
           </div>
         )}
@@ -706,7 +854,7 @@ function App(){
 
       {screen!=="quiz" && (
         <footer style={s.footer}>
-          <a href={SUPPORT_URL} target="_blank" rel="noreferrer" style={{color:"#C9A06A", textDecoration:"none"}}>☕ {t.support}</a>
+          <a href={SUPPORT_URL} target="_blank" rel="noreferrer" style={{color:"#C9A06A", textDecoration:"none"}} onClick={()=>track("support_click",{type:resultType})}>☕ {t.support}</a>
           <p style={s.fine}>{t.footer}</p>
         </footer>
       )}
@@ -755,6 +903,8 @@ const s = {
   rank:{display:"flex", gap:10, alignItems:"center", width:"100%", padding:"10px 0", borderBottom:"1px solid #2A171D", background:"transparent", color:"#F3E6D8", borderLeft:0, borderRight:0, borderTop:0, cursor:"pointer"},
   stat:{display:"flex", justifyContent:"space-between", padding:"6px 0", borderBottom:"1px solid #2A171D", fontSize:14, color:"#C9B4A8"},
   footer:{borderTop:"1px solid #2A171D", maxWidth:760, margin:"20px auto 0", padding:"24px 20px 36px"},
+  faq:{background:"#24151A", border:"1px solid #3A242C", borderRadius:12, padding:"12px 14px", margin:"8px 0"},
+  faqQ:{cursor:"pointer", fontWeight:600, fontSize:15},
   fine:{color:"#8F7A72", fontSize:12, lineHeight:1.6},
 };
 
