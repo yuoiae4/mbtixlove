@@ -2,8 +2,8 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8" />
-<title>MBTI 恋愛診断 | 次の1手と、好きの型が分かる</title>
-<meta name="description" content="MBTI恋愛診断。短い8問または20問。次のデートの1手、好みの距離感、相手への送り文まで。無料・登録不要。" />
+<title>MBTI 恋愛診断 | 次のデート、考えてみる？</title>
+<meta name="description" content="次のデートに迷ったら。質問に答えると案が出るよ。気になる人にも送れるよ。無料・登録不要。" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <!-- TODO: 実際に公開するドメインに差し替えてください（例: https://example.com/mbti-love.html） -->
 <link rel="canonical" href="https://example.com/mbti-love.html" />
@@ -23,7 +23,7 @@
   "@context": "https://schema.org",
   "@type": "Quiz",
   "name": "MBTI 恋愛診断",
-  "description": "20問でMBTIタイプと恋愛の好みを診断し、相性のよいデートや相手のタイプとの相性を提案するWeb診断。",
+  "description": "次のデートに迷ったときの診断。気になる人にも送れるよ。",
   "about": { "@type": "Thing", "name": "MBTI・恋愛診断" },
   "educationalLevel": "beginner",
   "isAccessibleForFree": true,
@@ -60,12 +60,12 @@
 </script>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23140C10'/%3E%3Cpath d='M32 48s-14-9-14-19c0-6 4-10 9-10 3 0 5 2 5 2s2-2 5-2c5 0 9 4 9 10 0 10-14 19-14 19z' fill='%23E8B4BC'/%3E%3C/svg%3E" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="MBTI 恋愛診断 | 好きの型が分かる" />
-<meta property="og:description" content="20個の質問で、あなたのMBTIと恋愛の進み方が分かります。" />
+<meta property="og:title" content="MBTI 恋愛診断 | 次のデート、考えてみる？" />
+<meta property="og:description" content="次のデートに迷ったら。質問に答えると案が出るよ。気になる人にも送れるよ。" />
 <meta property="og:image" content="ogp-love.png" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="MBTI 恋愛診断" />
-<meta name="twitter:description" content="20個の質問で、好きの型と合う相手が見つかります。" />
+<meta name="twitter:title" content="MBTI 恋愛診断 | 次のデート、考えてみる？" />
+<meta name="twitter:description" content="次のデートに迷ったら。質問に答えると案が出るよ。" />
 <meta name="twitter:image" content="ogp-love.png" />
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap');
@@ -316,35 +316,35 @@ const rakutenUrl = (q) => {
 
 const UI = {
   ja: {
-    appTitle:"MBTI 恋愛診断", tagline:"次の1手を先に出します。短い8問、または20問。",
-    kicker:"好きの型 × 相手との距離",
-    start:"診断する", quick:"短い診断（8問）",
-    stageAsk:"いまの関係はどれに近い？",
+    appTitle:"MBTI 恋愛診断", tagline:"次のデート、一緒に考えてみる？ 質問に答えると案が出るよ。気になる人にも送れるよ。",
+    kicker:"次のデート、どうする？",
+    start:"診断する（20問）", quick:"短い診断（8問）",
+    stageAsk:"今のふたりは、どれに近い？",
     stageCrush:"気になる", stageNew:"付き合い始め", stageLong:"長く続いてる",
     filterTime:"時間", filterBudget:"予算", filterPlace:"場所",
     timeAny:"指定なし", time1h:"1時間", timeHalf:"半日", timeDay:"1日",
     budgetAny:"指定なし", budgetLow:"少なめ", budgetMid:"普通",
     placeAny:"どちらでも", placeIn:"室内", placeOut:"外",
-    nextMove:"次の1手", nextWhy:"今の距離感と関係から、まずこれ。",
+    nextMove:"次のデート案", nextWhy:"今のふたりに合いそうなデートだよ。",
     inviteSend:"この結果を相手に送る",
-    inviteHint:"タイプを当てなくても大丈夫。リンクを送ると、相手は8問だけ答えて「二人の次の1手」が出ます。",
+    inviteHint:"リンク送信 → 相手が8問に回答 → 二人用のデート案が1件表示。相手のタイプ入力は不要。",
     inviteMsg:"送り文",
     inviteCopy:"送り文をコピー",
     inviteLink:"招待リンク",
-    hostSaid:"相手の今夜の提案",
+    hostSaid:"相手からの今夜の案",
     partnerStart:"自分も8問答える",
-    pairNext:"二人の次の1手",
-    pairNote:"二人の好みを混ぜて出しています。タイプ当てより、次に何をするかが先です。",
-    shortNote:"短い診断は恋愛の好みだけ見ます。タイプ名は出ません。",
-    addType:"タイプも出す（12問追加）",
+    pairNext:"ふたりのデート案",
+    pairNote:"ふたりの答えを合わせて、デートを1つ出してるよ。",
+    shortNote:"短い診断（8問）：タイプ名なし／デート案のみ。タイプ判定はあとから12問追加。",
+    addType:"MBTIタイプも見る（12問追加）",
     stageUsed:"関係の段階",
     navHome:"ホーム", navDates:"デートから探す", navTypes:"タイプ", navSaved:"履歴",
     back:"戻る", questionOf:(n,t)=>`質問 ${n} / ${t}`,
     save:"この結果を残す", saved:"保存しました", retake:"もう一度",
     lookType:"タイプページ", invite:"相手のタイプを見る",
-    persona:"恋愛の型", personNote:"実際の提案は、こちらの好みを優先します。",
+    persona:"恋愛の型", personNote:"デート案は、タイプ名より好みを優先してるよ。",
     like:"大切にしたい", hate:"負担になりやすい",
-    tonight:"今夜のおすすめ", tonightWhy:"今の好みから、最初にこれを。",
+    tonight:"今夜のデート案", tonightWhy:"今の好みに合いそうなデートだよ。",
     fitTitle:"相性のよいデート", avoidTitle:"今は重いかも",
     pairTitle:"二人の相性", pairPick:"相手のタイプ",
     pairScore:"関係の進みやすさ",
@@ -358,19 +358,19 @@ const UI = {
     load:"この結果を開く", del:"削除",
     share:"結果を送る", shareX:"X", shareLine:"LINE", shareCopy:"リンク",
     copied:"コピーしました",
-    how:"流れ", s1:"8問でも可", s1d:"好みだけで次の1手。タイプは後から足せる。", s2:"条件で絞る", s2d:"時間・予算・室内外をその場で切り替え。", s3:"相手に送る", s3d:"リンクを渡すと、二人の予定が1つ出る。",
+    how:"使い方", s1:"まずは8問でOK", s1d:"デートの好みだけ聞いて、次の案を出すよ。タイプはあとから足せるよ。", s2:"気になる人にも送れる", s2d:"リンクを開いて8問答えると、ふたりの案になるよ。", s3:"デートが1つ出る", s3d:"夜の散歩、手紙、長いカフェみたいな具体的な案だよ。",
     compat:"相性の出やすい相手",
     caution:"気をつけたい点",
-    shareText:(type,love,d)=>`私のMBTIは${type}。恋愛の型は「${love}」。次の1手は${d}。 #MBTI #恋愛診断`,
-    inviteText:(d)=>`8問だけ答えてほしい。今の私の「次の1手」は「${d}」。あなたの好みも混ぜて、二人の予定を1つ出してくれる。`,
+    shareText:(type,love,d)=>`私のMBTIは${type}。次のデート案は「${d}」だよ。 #MBTI #恋愛診断`,
+    inviteText:(d)=>`8問だけ答えてほしいな。今の私のデート案は「${d}」。ふたりの案を1つ出してくれるよ。`,
     faqTitle:"よくある質問",
     shareImg:"画像で保存/共有",
   },
   en: {
-    appTitle:"MBTI Love Reading", tagline:"Personality and dating pace, separately. 20 questions.",
-    kicker:"How you love × how close you stand",
-    start:"Start", quick:"Short (8 Qs)",
-    stageAsk:"Where is this, roughly?",
+    appTitle:"MBTI Love Reading", tagline:"Pick the next date before you name the type. 8 or 20 questions.",
+    kicker:"Tonight's move first",
+    start:"Full 20 Qs", quick:"8 questions — next move",
+    stageAsk:"Which stage is stuck right now?",
     stageCrush:"A crush", stageNew:"Just started", stageLong:"Been a while",
     filterTime:"Time", filterBudget:"Budget", filterPlace:"Place",
     timeAny:"Any", time1h:"1 hour", timeHalf:"Half day", timeDay:"A day",
@@ -386,7 +386,7 @@ const UI = {
     partnerStart:"Answer 8 questions",
     pairNext:"Your shared next move",
     pairNote:"We blend both tastes. The date comes before the letters.",
-    shortNote:"The short path reads dating taste only. No type letters.",
+    shortNote:"The short path does not print type letters. It prints one next move. Add 12 questions later if you want the letters.",
     addType:"Add the 12 type questions",
     stageUsed:"Stage",
     navHome:"Home", navDates:"Dates", navTypes:"Types", navSaved:"Saved",
@@ -409,7 +409,7 @@ const UI = {
     load:"Open", del:"Delete",
     share:"Share", shareX:"X", shareLine:"LINE", shareCopy:"Copy",
     copied:"Copied",
-    how:"How", s1:"20 Qs", s1d:"12 type + 8 dating taste.", s2:"A style", s2d:"Letters plus closeness and space.", s3:"One move", s3d:"Tonight, and what to watch.",
+    how:"Why this", s1:"The stuck night", s1d:"Silence, no plan, uneven pace. A move before a label.", s2:"No type required", s2d:"They answer 8 taste questions. Letters optional.", s3:"One shared plan", s3d:"A walk, a letter, a late cafe — one concrete night.",
     compat:"Types that tend to fit",
     caution:"Watch this",
     shareText:(type,love,d)=>`I'm ${type} — love style "${love}". Next move: ${d}.`,
@@ -418,10 +418,10 @@ const UI = {
     shareImg:"Save / share image",
   },
   zh: {
-    appTitle:"MBTI 恋爱诊断", tagline:"性格和恋爱推进方式分开看。20题。",
-    kicker:"喜欢的形状 × 和对方的距离",
-    start:"开始", quick:"短测（8题）",
-    stageAsk:"现在更接近哪一段？",
+    appTitle:"MBTI 恋爱诊断", tagline:"先定下一步约会，再看类型。8题或20题。",
+    kicker:"先给今晚的一步",
+    start:"完整20题", quick:"先答8题（下一步）",
+    stageAsk:"现在卡在哪一段？",
     stageCrush:"还在喜欢", stageNew:"刚在一起", stageLong:"已经很久",
     filterTime:"时间", filterBudget:"预算", filterPlace:"地点",
     timeAny:"不限", time1h:"一小时", timeHalf:"半天", timeDay:"一天",
@@ -437,7 +437,7 @@ const UI = {
     partnerStart:"我也答8题",
     pairNext:"两个人的下一步",
     pairNote:"把两人的偏好混在一起。先定约会，再看字母。",
-    shortNote:"短测只看恋爱偏好，不会出类型。",
+    shortNote:"短测不会出类型字母，只会给「下一步」。之后可以再加12题补类型。",
     addType:"再测12题，补上类型",
     stageUsed:"关系阶段",
     navHome:"首页", navDates:"约会", navTypes:"类型", navSaved:"记录",
@@ -460,7 +460,7 @@ const UI = {
     load:"打开", del:"删除",
     share:"分享", shareX:"X", shareLine:"LINE", shareCopy:"复制",
     copied:"已复制",
-    how:"流程", s1:"20题", s1d:"性格12＋恋爱偏好8。", s2:"出型", s2d:"字母，加上贴近和留白。", s3:"一步", s3d:"今晚，以及要小心的点。",
+    how:"为什么用", s1:"下一步定不下来", s1d:"沉默、不会约、温度不一样。先给今晚的一步，再看字母。", s2:"不必猜类型", s2d:"把链接发出去，对方只答8题。", s3:"两个人的一个计划", s3d:"散步、写信、坐到打烊——具体出一件。",
     compat:"容易合拍的对象",
     caution:"需要小心",
     shareText:(type,love,d)=>`我是${type}，恋爱型「${love}」。下一步：${d}。`,
@@ -607,7 +607,7 @@ const FAQS = [
   { q:{ja:"診断結果は保存できますか？",en:"Can I save my result?",zh:"结果可以保存吗？"},
     a:{ja:"「この結果を残す」でブラウザ内に保存できます。会員登録は不要ですが、端末を変えると引き継がれません。",en:"Yes, saved locally in your browser. No account needed, but it won't sync across devices.",zh:"可以保存在浏览器本地，无需注册，但换设备不会同步。"} },
   { q:{ja:"相手のタイプとの相性も分かりますか？",en:"Can I check compatibility with a partner's type?",zh:"能看和对方类型的合适度吗？"},
-    a:{ja:"結果をリンクで送れます。相手は8問だけ答えると、二人の好みを混ぜた「次の1手」が出ます。タイプ名は必須ではありません。",en:"Send the result link. They answer 8 questions and you get one shared next move. Type letters are optional.",zh:"把结果链接发出去。对方只答8题，就会出现混合两人偏好的下一步。不必先知道类型。"} },
+    a:{ja:"結果をリンクで送れます。相手は8問だけ答えると、二人の好みを混ぜた提案が1つ出ます。タイプ名は必須ではありません。",en:"Send the result link. They answer 8 questions and you get one shared next move. Type letters are optional.",zh:"把结果链接发出去。对方只答8题，就会出现混合两人偏好的下一步。不必先知道类型。"} },
   { q:{ja:"この診断は科学的根拠がありますか？",en:"Is this scientifically validated?",zh:"这个诊断有科学依据吗？"},
     a:{ja:"娯楽目的の性格診断であり、心理学的な診断ツールではありません。恋愛相性を保証するものではありません。",en:"This is for entertainment, not a validated psychological instrument.",zh:"仅供娱乐，不是经过验证的心理学工具。"} },
 ];
@@ -844,6 +844,7 @@ function App(){
             <p className="display" style={s.kicker}>{t.kicker}</p>
             <h1 className="display" style={s.title}>{t.appTitle}</h1>
             <p style={s.lead}>{t.tagline}</p>
+            <p style={s.muted}>{lang==="ja"?"出る案の例：「夜の長い散歩」「手紙を置いて終わる夜」「閉店まで残るカフェ」":lang==="zh"?"不知道类型也没关系。夜里散步、写信、坐到打烊之类，会给出具体的下一步。":"You don't need a type first. You get a real plan: a night walk, a letter, a late cafe."}</p>
             <p style={s.muted}>{t.stageAsk}</p>
             <div style={s.mosaic}>
               {[["crush",t.stageCrush],["new",t.stageNew],["long",t.stageLong]].map(([id,lab])=>(
@@ -855,6 +856,7 @@ function App(){
               <button style={s.ghost} onClick={()=>startQuiz("short")}>{t.quick}</button>
             </div>
             <p style={s.muted}>{t.shortNote}</p>
+            <p style={{...s.muted, marginTop:4}}>{t.inviteHint}</p>
             <div style={s.grid3}>
               {[[t.s1,t.s1d],[t.s2,t.s2d],[t.s3,t.s3d]].map(([h,d])=>(
                 <div key={h} style={s.step}><div className="display" style={s.stepH}>{h}</div><p style={s.muted}>{d}</p></div>
