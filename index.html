@@ -9,7 +9,7 @@
 <link rel="canonical" href="https://yuoiae4.github.io/mbtixlove/" />
 
 <!-- ▼ アクセス解析（GA4）。G-XXXXXXXXXX をご自身の測定IDに差し替えてください -->
-<script type='text/javascript' src='https://storage.googleapis.com/rsnE2OlljWWxavhADJVV6yvQOatW9Z2JWP_0MXwYXnMWBDxzrudJ6DI3ooeaqf5PmoI8G8FT3EFssMZU4oPYj6DD83NjzO9cen64r6hwjVSVnF5X5sYp3XB6BCJhmy2TEVveeIAauesdnVyzGXwK7c9BT-SXSMCS-ezpNfgv73_5aQpG217eERI0zdSJ8_Ky1OFsaPLtgQH9-FpMGuEGP9q9sLBEsZZbk4MHnYrJS-qpNTUxn-Bbtz5l4oKAL84dDP-I9CiPq9yQYbFKw96gIKNqCXINiz6JIrgE2gtSWIxToepvtmJilVbsdBZNkhYYTPYLYNDuI--fuApWQC9zXOTujYf27dbUqo-bOOAQqN7TW6uBa0r32sM0_6fanF1X6BJM_yFNJnQ3hPbYc8u7crLHjp15zL7ZOLKCbYirsQJQEsOpTSAkINQ0vKmrFfGq8-BGqRejBYdXzuEXcLsTRIj5GhCYKbAz2B2zTfy6vG6OEmjNQiQvXbxHbaX-sqldE8HaGXPfBbVDrHHQMCvqhO9Ss_lIE6ytlW_vP2X6A4dFyTvuDrGJfouDK3sGEDm22M-wVJygaYrtGwtMpInEMOYOg1nOu6N7Vp5znWRSdDOPfN0vospdxn478wjKbMhUL9MzptWvMgwm0tsbJBvGT703dmSOCDiSRpcJ-JbpclXbUwAagr8p--DOPGFrj4mF609QiGKry-fPGJTiTRBj_gtiMz5DWEm5w1TwGCEgWT7QLEIc4RIVmxA_dOaclLekrkIi_Bhu7zmyD5-1_7yB3N_uYPj0f7YvBQ-oeFYnuwScaN9N_3CYXPIDbPxABK4nSicWqZ3h2P2dk8vW9ewAaNuVayyy42tGnjflbwIz9YOTXoSwpRpT6vTrUBVFjVICOeR_lYRUygSS8w-nfHlxGUG3NTtHI8J225s1N6x22KKHKMQxDVpfyyDz8fy2wobZ9hXQyQYB9HFSR6RKTbPHaDrEeJJ1wyaOSYpZNm-doXtd_z2yitmUNOP2MZiSeXePjvICr19GVxwx670GSF_lyokJk2TUMqIZv-4g1wJobkcNECf_Z9S8pbFcVUQ1dZ3MwQ7ALh1N4lj-5bGKF1-qbOfCXlO0TS0nBivv_PoyHsVvhuhUZsmr1nwOBKTYbJMZ6mzf8cYsRg1xGCMuWW7yANkeisW5LA2U6OzztYl9QKXBPONXP1agTor6ZSYVXkEI22uVpVBlOBmfv8mEkazhe4_zp5L1QvsAsYEixWAwT9OhWxVt5jjCeB0mrGff2TR76B-6X2xbk0NPcu3DKhnTFIHVdUY2Mma93gomA5woerx7PKClxLzQLkZxDTqf7mINpUgGpsZWISa9ejqvO-6g2wZMy6voNM8p4eXdMvrkyl0qTC5x5ugCQUowr0P_F6xZ68ImDGzVqfoSC2LHCsGmq0pJLQr_WhS8V-FS9hDGcU5wO-qaLIu4Bjzu97nszapwUPZ4HItx04IyOWpvYo_F1kLx-CEGUD79dhMBG4pBghshGLb_lbDSvXTHE_nEn3Ry-9lazFZsAzbbdN1UHAkpPpa371bxqE8lC_YX7vNEuOga3O8U5CvAFqMx_lgIIhVyzsfjYabwz-c0Js_jwVfnT9Y7_3XS3jVPPyBwdReDRhHruc8iErSyGzutIGFB5x8CdSgTr2SsOXUwkBZd-YyJaxydcInSoZho7l-PvbxtlOk_CmtNgLFA_cIOuvAARmcOjraWkGMfUruKmno2bGgCpbIKmsw'></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){ dataLayer.push(arguments); }
@@ -97,6 +97,45 @@
   }
   #root { position: relative; z-index: 1; }
   button { font-family: inherit; }
+
+  @keyframes riseIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-anim > * { animation: riseIn .7s cubic-bezier(.2,.7,.2,1) both; }
+  .hero-anim > *:nth-child(1) { animation-delay: .02s; }
+  .hero-anim > *:nth-child(2) { animation-delay: .08s; }
+  .hero-anim > *:nth-child(3) { animation-delay: .14s; }
+  .hero-anim > *:nth-child(4) { animation-delay: .2s; }
+  .hero-anim > *:nth-child(5) { animation-delay: .26s; }
+  .hero-anim > *:nth-child(6) { animation-delay: .3s; }
+  .hero-anim > *:nth-child(7) { animation-delay: .34s; }
+
+  .hero-marks { position: relative; height: 64px; margin: -8px 0 6px; }
+  .hero-marks span {
+    position: absolute; top: 0; width: 30px; height: 30px; border-radius: 50%;
+    filter: blur(1px); opacity: .9;
+  }
+
+  .btn-primary { transition: transform .18s ease, box-shadow .18s ease, filter .18s ease; }
+  .btn-primary:hover { transform: translateY(-2px); filter: brightness(1.05); box-shadow: 0 10px 28px -10px #E8B4BC80; }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-ghost { transition: border-color .18s ease, color .18s ease, transform .18s ease; }
+  .btn-ghost:hover { border-color: #E8B4BC; color: #E8B4BC; transform: translateY(-1px); }
+
+  .lift { transition: transform .18s ease, border-color .18s ease; }
+  .lift:hover { transform: translateY(-3px); border-color: #E8B4BC80; }
+
+  .chip-btn { transition: transform .15s ease, border-color .15s ease, color .15s ease; }
+  .chip-btn:hover { transform: translateY(-2px); border-color: #E8B4BC; color: #E8B4BC; }
+
+  :focus-visible { outline: 2px solid #E8B4BC; outline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-anim > * { animation: none; }
+    .btn-primary:hover, .btn-ghost:hover, .lift:hover, .chip-btn:hover { transform: none; }
+  }
 </style>
 </head>
 <body>
@@ -914,7 +953,7 @@ function App(){
   const DateCard = ({row, compact}) => {
     const d = row.item;
     return (
-      <div style={{...s.card, borderLeft:`3px solid ${temp.accent}`}}>
+      <div className="lift" style={{...s.card, borderLeft:`3px solid ${temp.accent}`}}>
         <div style={s.rowBetween}>
           <button style={s.dateName} onClick={()=>{ setFocusDate(d); setScreen("date"); }}>{d.name[lang]}</button>
           <span style={{color:temp.accent, fontWeight:700}}>{row.score}%</span>
@@ -954,8 +993,13 @@ function App(){
 
       <main style={s.wrap}>
         {screen==="start" && (
-          <section style={s.hero}>
-            <div style={{opacity:.8, marginBottom:8}}><IconHeart /> <IconHeart color="#C9A06A" /> <IconHeart color="#F3E6D8" /></div>
+          <section style={s.hero} className="hero-anim">
+            <div className="hero-marks" aria-hidden="true">
+              <span style={{left:0, top:10, width:32, height:32, background:TEMP.NT.accent}} />
+              <span style={{left:24, top:0, width:42, height:42, background:TEMP.NF.accent}} />
+              <span style={{left:60, top:16, width:24, height:24, background:TEMP.SJ.accent}} />
+              <span style={{left:86, top:6, width:30, height:30, background:TEMP.SP.accent}} />
+            </div>
             <p className="display" style={s.kicker}>{t.kicker}</p>
             <h1 className="display" style={s.title}>{t.appTitle}</h1>
             <p style={s.lead}>{t.tagline}</p>
@@ -963,30 +1007,30 @@ function App(){
             <p style={s.muted}>{t.stageAsk}</p>
             <div style={s.mosaic}>
               {[["crush",t.stageCrush],["new",t.stageNew],["long",t.stageLong]].map(([id,lab])=>(
-                <button key={id} onClick={()=>setStage(id)} style={{...s.chip, borderColor: stage===id?"#E8B4BC":"#3A242C", color: stage===id?"#E8B4BC":"#F3E6D8"}}>{lab}</button>
+                <button key={id} className="chip-btn" onClick={()=>setStage(id)} style={{...s.chip, borderColor: stage===id?"#E8B4BC":"#3A242C", color: stage===id?"#E8B4BC":"#F3E6D8"}}>{lab}</button>
               ))}
             </div>
-            <div style={{display:"flex", gap:8, flexWrap:"wrap", margin:"8px 0 6px"}}>
-              <button style={s.primary} onClick={()=>startQuiz("full")}>{t.start}</button>
-              <button style={s.ghost} onClick={()=>startQuiz("short")}>{t.quick}</button>
+            <div style={{display:"flex", gap:10, flexWrap:"wrap", margin:"10px 0 6px", alignItems:"center"}}>
+              <button className="btn-primary" style={s.primary} onClick={()=>startQuiz("full")}>{t.start}</button>
+              <button className="btn-ghost" style={s.ghost} onClick={()=>startQuiz("short")}>{t.quick}</button>
             </div>
             <p style={s.muted}>{t.shortNote}</p>
             <p style={{...s.muted, marginTop:4}}>{t.inviteHint}</p>
             <div style={s.grid3}>
-              {[[t.s1,t.s1d],[t.s2,t.s2d],[t.s3,t.s3d]].map(([h,d])=>(
-                <div key={h} style={s.step}><div className="display" style={s.stepH}>{h}</div><p style={s.muted}>{d}</p></div>
+              {[[t.s1,t.s1d,TEMP.NT.accent],[t.s2,t.s2d,TEMP.NF.accent],[t.s3,t.s3d,TEMP.SP.accent]].map(([h,d,c])=>(
+                <div key={h} className="lift" style={{...s.step, borderLeft:`3px solid ${c}`}}><div className="display" style={s.stepH}>{h}</div><p style={s.muted}>{d}</p></div>
               ))}
             </div>
             <h2 className="display" style={s.h2}>{t.typesTitle}</h2>
             <div style={s.mosaic}>
               {ALL_TYPES.map((code)=>{
                 const c = TEMP[temperamentOf(code)];
-                return <button key={code} onClick={()=>{ setResultType(code); setScreen("type"); }} className="display" style={{...s.chip, color:c.accent, borderColor:c.accent+"55"}}>{code}</button>;
+                return <button key={code} className="display chip-btn" onClick={()=>{ setResultType(code); setScreen("type"); }} style={{...s.chip, color:c.accent, borderColor:c.accent+"55"}}>{code}</button>;
               })}
             </div>
             <h2 className="display" style={s.h2}>{t.faqTitle}</h2>
             {FAQS.map((f,i)=>(
-              <details key={i} style={s.faq}>
+              <details key={i} className="lift" style={s.faq}>
                 <summary style={s.faqQ}>{f.q[lang]}</summary>
                 <p style={s.muted}>{f.a[lang]}</p>
               </details>
@@ -1015,7 +1059,7 @@ function App(){
             </h1>
             {hostInvite.type && TYPES[hostInvite.type] && <p style={s.lead}>{TYPES[hostInvite.type].love[lang]}</p>}
             <p style={s.muted}>{t.inviteHint}</p>
-            <button style={s.primary} onClick={()=>{ setQuizMode("partner"); setPrefs(emptyPrefs()); setQIndex(0); setScreen("quiz"); }}>{t.partnerStart}</button>
+            <button className="btn-primary" style={s.primary} onClick={()=>{ setQuizMode("partner"); setPrefs(emptyPrefs()); setQIndex(0); setScreen("quiz"); }}>{t.partnerStart}</button>
           </div>
         )}
 
@@ -1051,7 +1095,7 @@ function App(){
                 {current.love[lang]}
               </p>
             )}
-            {isShortResult && <button style={{...s.ghost, marginBottom:16}} onClick={continueTypeQuiz}>{t.addType}</button>}
+            {isShortResult && <button className="btn-ghost" style={{...s.ghost, marginBottom:16}} onClick={continueTypeQuiz}>{t.addType}</button>}
 
             {tonight && (
               <div style={s.tonight}>
@@ -1066,7 +1110,7 @@ function App(){
               </div>
             )}
 
-            <div style={s.card}>
+            <div className="lift" style={s.card}>
               <p className="display" style={s.kicker}>{t.persona}</p>
               <p style={s.muted}>{t.personNote}</p>
               <p>{t.like}: {lh.like.join(" / ") || "—"}</p>
@@ -1084,22 +1128,22 @@ function App(){
             {tab==="avoid" && avoid.map((row)=><DateCard key={row.item.id} row={row} />)}
             {tab==="pair" && (
               <div>
-                <div style={s.card}>
+                <div className="lift" style={s.card}>
                   <p className="display" style={s.kicker}>{t.inviteSend}</p>
                   <p style={s.muted}>{t.inviteHint}</p>
                   <p style={{whiteSpace:"pre-wrap", lineHeight:1.7}}>{inviteBody}</p>
                   <div style={s.storeRow}>
-                    <button style={s.primary} onClick={async()=>{
+                    <button className="btn-primary" style={s.primary} onClick={async()=>{
                       const text = inviteBody + "\n" + shareUrl(true);
                       try { await navigator.clipboard.writeText(text); } catch(e){}
                       setInviteMsgOn(true); setTimeout(()=>setInviteMsgOn(false),1600);
                       track("invite_copy", { type: resultType||"short" });
                     }}>{inviteMsgOn?t.copied:t.inviteCopy}</button>
-                    <button style={s.ghost} onClick={async()=>{
+                    <button className="btn-ghost" style={s.ghost} onClick={async()=>{
                       try { await navigator.clipboard.writeText(shareUrl(true)); } catch(e){}
                       setCopyMsg(true); setTimeout(()=>setCopyMsg(false),1600);
                     }}>{copyMsg?t.copied:t.inviteLink}</button>
-                    <button style={s.ghost} onClick={()=>{
+                    <button className="btn-ghost" style={s.ghost} onClick={()=>{
                       track("share_click",{method:"line", type:resultType||"short"});
                       window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl(true))}`,"_blank");
                     }}>{t.shareLine}</button>
@@ -1127,18 +1171,18 @@ function App(){
             )}
 
             <div style={{display:"flex", gap:8, flexWrap:"wrap", marginTop:18}}>
-              <button style={s.primary} onClick={saveResult}>{saveMsg?t.saved:t.save}</button>
-              <button style={s.ghost} onClick={()=>setTab("pair")}>{t.inviteSend}</button>
-              <button style={s.ghost} onClick={()=>startQuiz(quizMode==="short"?"short":"full")}>{t.retake}</button>
-              {resultType && <button style={s.ghost} onClick={()=>setScreen("type")}>{t.lookType}</button>}
+              <button className="btn-primary" style={s.primary} onClick={saveResult}>{saveMsg?t.saved:t.save}</button>
+              <button className="btn-ghost" style={s.ghost} onClick={()=>setTab("pair")}>{t.inviteSend}</button>
+              <button className="btn-ghost" style={s.ghost} onClick={()=>startQuiz(quizMode==="short"?"short":"full")}>{t.retake}</button>
+              {resultType && <button className="btn-ghost" style={s.ghost} onClick={()=>setScreen("type")}>{t.lookType}</button>}
             </div>
             <div style={{marginTop:24}}>
               <p style={s.muted}>{t.share}</p>
               <div style={{display:"flex", gap:8, flexWrap:"wrap"}}>
-                <button style={s.ghost} onClick={()=>{ track("share_click",{method:"x", type:resultType}); window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareMessage)}&url=${encodeURIComponent(shareUrl())}`,"_blank"); }}>{t.shareX}</button>
-                <button style={s.ghost} onClick={()=>{ track("share_click",{method:"line", type:resultType}); window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl(true))}`,"_blank"); }}>{t.shareLine}</button>
-                <button style={s.ghost} onClick={async()=>{ try{ await navigator.clipboard.writeText(shareUrl(true)); }catch(e){} setCopyMsg(true); setTimeout(()=>setCopyMsg(false),1600); }}>{copyMsg?t.copied:t.shareCopy}</button>
-                {current && <button style={s.ghost} onClick={shareImage}>{t.shareImg}</button>}
+                <button className="btn-ghost" style={s.ghost} onClick={()=>{ track("share_click",{method:"x", type:resultType}); window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareMessage)}&url=${encodeURIComponent(shareUrl())}`,"_blank"); }}>{t.shareX}</button>
+                <button className="btn-ghost" style={s.ghost} onClick={()=>{ track("share_click",{method:"line", type:resultType}); window.open(`https://social-plugins.line.me/lineit/share?url=${encodeURIComponent(shareUrl(true))}`,"_blank"); }}>{t.shareLine}</button>
+                <button className="btn-ghost" style={s.ghost} onClick={async()=>{ try{ await navigator.clipboard.writeText(shareUrl(true)); }catch(e){} setCopyMsg(true); setTimeout(()=>setCopyMsg(false),1600); }}>{copyMsg?t.copied:t.shareCopy}</button>
+                {current && <button className="btn-ghost" style={s.ghost} onClick={shareImage}>{t.shareImg}</button>}
               </div>
             </div>
           </div>
@@ -1147,7 +1191,10 @@ function App(){
         {screen==="type" && resultType && TYPES[resultType] && (
           <div style={{paddingTop:24}}>
             <p className="display" style={s.kicker}>{t.typesTitle}</p>
-            <h1 className="display" style={{color:temp.accent, fontSize:48, margin:"0 0 8px"}}>{resultType}</h1>
+            <div style={{position:"relative", margin:"0 0 8px"}}>
+              <div aria-hidden="true" style={{position:"absolute", left:-20, top:-30, width:180, height:180, borderRadius:"50%", background:`radial-gradient(circle, ${temp.accent}33, transparent 70%)`}} />
+              <h1 className="display" style={{position:"relative", color:temp.accent, fontSize:"clamp(48px, 10vw, 76px)", margin:0, letterSpacing:1}}>{resultType}</h1>
+            </div>
             <p className="display" style={{fontSize:24}}>{TYPES[resultType].love[lang]}</p>
             <p style={s.lead}>{TYPES[resultType].blurb[lang]}</p>
             <p style={s.muted}>{t.caution}: {TYPES[resultType].caution[lang]}</p>
@@ -1155,7 +1202,7 @@ function App(){
             {rankedDates(resultType, emptyPrefs()).slice(0,8).map((row,i)=>(
               <div key={row.item.id} style={s.rank}><span style={{color:temp.accent}}>{i+1}</span> {row.item.name[lang]} <span style={{marginLeft:"auto", color:temp.accent}}>{row.score}%</span></div>
             ))}
-            <button style={{...s.primary, marginTop:16}} onClick={()=>setScreen("result")}>{t.lookType}</button>
+            <button className="btn-primary" style={{...s.primary, marginTop:16}} onClick={()=>setScreen("result")}>{t.lookType}</button>
           </div>
         )}
 
@@ -1175,7 +1222,7 @@ function App(){
           <div style={{paddingTop:24}}>
             <h1 className="display" style={s.h2}>{t.datesTitle}</h1>
             {DATES.map((d)=>(
-              <div key={d.id} style={s.card}>
+              <div key={d.id} className="lift" style={s.card}>
                 <button style={s.dateName} onClick={()=>{ setFocusDate(d); setScreen("date"); }}>{d.name[lang]}</button>
                 <p style={s.muted}>{d.why[lang]}</p>
                 <div style={s.storeRow}>
@@ -1194,7 +1241,7 @@ function App(){
             <h1 className="display" style={s.title}>{focusDate.name[lang]}</h1>
             <p style={s.lead}>{focusDate.why[lang]}</p>
             {resultType && <p>{matchScore(focusDate, resultType, prefs)}% · {dateReason(focusDate, prefs, lang)}</p>}
-            <div style={s.card}>
+            <div className="lift" style={s.card}>
               {PREF_KEYS.map((k)=>(
                 <div key={k} style={s.stat}><span>{PREF_LABEL[lang][k]}</span><span>{"●".repeat(focusDate.stats[k]||3)}{"○".repeat(5-(focusDate.stats[k]||3))}</span></div>
               ))}
@@ -1207,8 +1254,8 @@ function App(){
             ))}
             <div style={{...s.storeRow, marginTop:16}}>
               <span style={s.storeLabel}>{t.stores}</span>
-              <a href={amazonUrl(focusDate.shop)} target="_blank" rel="noreferrer sponsored" style={s.primary} onClick={()=>track("affiliate_click",{store:"amazon", shop:focusDate.shop, placement:"detail"})}>Amazon</a>
-              <a href={rakutenUrl(focusDate.shop)} target="_blank" rel="noreferrer sponsored" style={s.ghost} onClick={()=>track("affiliate_click",{store:"rakuten", shop:focusDate.shop, placement:"detail"})}>楽天</a>
+              <a href={amazonUrl(focusDate.shop)} target="_blank" rel="noreferrer sponsored" className="btn-primary" style={s.primary} onClick={()=>track("affiliate_click",{store:"amazon", shop:focusDate.shop, placement:"detail"})}>Amazon</a>
+              <a href={rakutenUrl(focusDate.shop)} target="_blank" rel="noreferrer sponsored" className="btn-ghost" style={s.ghost} onClick={()=>track("affiliate_click",{store:"rakuten", shop:focusDate.shop, placement:"detail"})}>楽天</a>
             </div>
           </div>
         )}
@@ -1219,7 +1266,7 @@ function App(){
             {history.length===0 ? <p style={s.muted}>{t.noSaved}</p> : history.map((h,i)=>(
               <div key={i} style={s.rank}>
                 <b>{h.type}</b> <span style={s.muted}>{h.date}{h.top?` · ${h.top}`:""}</span>
-                <button style={s.ghost} onClick={()=>{ setResultType(h.type && h.type!=="PREF" ? h.type : null); if(h.prefs) setPrefs(h.prefs); if(h.stage) setStage(h.stage); setPairPrefs(null); setScreen("result"); }}>{t.load}</button>
+                <button className="btn-ghost" style={s.ghost} onClick={()=>{ setResultType(h.type && h.type!=="PREF" ? h.type : null); if(h.prefs) setPrefs(h.prefs); if(h.stage) setStage(h.stage); setPairPrefs(null); setScreen("result"); }}>{t.load}</button>
                 <button style={s.linkBtn} onClick={()=>{ const n=history.filter((_,j)=>j!==i); setHistory(n); try{localStorage.setItem(STORAGE_KEY, JSON.stringify(n));}catch(e){} }}>{t.del}</button>
               </div>
             ))}
@@ -1251,10 +1298,10 @@ const s = {
   wrap:{maxWidth:760, margin:"0 auto", padding:"0 20px 40px"},
   hero:{padding:"48px 0 20px"},
   kicker:{letterSpacing:3, color:"#E8B4BC", fontSize:13, margin:"0 0 8px"},
-  title:{fontSize:42, lineHeight:1.15, margin:"0 0 14px", fontWeight:600},
+  title:{fontSize:"clamp(34px, 6vw, 52px)", lineHeight:1.12, margin:"0 0 14px", fontWeight:600},
   lead:{color:"#C9B4A8", fontSize:16, lineHeight:1.7, maxWidth:520},
-  primary:{background:"#E8B4BC", color:"#140C10", border:"none", borderRadius:999, padding:"12px 22px", fontWeight:700, cursor:"pointer"},
-  ghost:{background:"transparent", color:"#F3E6D8", border:"1px solid #3A242C", borderRadius:999, padding:"10px 16px", cursor:"pointer"},
+  primary:{background:"#E8B4BC", color:"#140C10", border:"none", borderRadius:999, padding:"14px 26px", fontWeight:700, fontSize:15, cursor:"pointer", boxShadow:"0 10px 24px -12px #E8B4BC70"},
+  ghost:{background:"transparent", color:"#B9A59A", border:"1px solid #3A242C", borderRadius:999, padding:"10px 16px", cursor:"pointer", fontSize:14},
   grid3:{display:"grid", gridTemplateColumns:"repeat(auto-fit,minmax(170px,1fr))", gap:12, marginTop:28},
   step:{background:"#24151A", border:"1px solid #3A242C", borderRadius:16, padding:16},
   stepH:{fontSize:20, marginBottom:6},
