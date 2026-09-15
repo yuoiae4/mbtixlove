@@ -341,7 +341,7 @@ const rakutenUrl = (q) => {
 
 const UI = {
   ja: {
-    appTitle:"MBTI 恋愛診断", tagline:"次のデート、一緒に考えてみる？ 質問に答えると案が出るよ。気になる人にも送れるよ。",
+    appTitle:"MBTI 恋愛診断", tagline:"次のデート、一緒に決めてみる？ 8問で案が出るよ。気になる人にも送れるよ。",
     kicker:"次のデート、どうする？",
     start:"診断する（20問）", quick:"短い診断（8問）",
     stageAsk:"今のふたりは、どれに近い？",
@@ -351,8 +351,8 @@ const UI = {
     budgetAny:"指定なし", budgetLow:"少なめ", budgetMid:"普通",
     placeAny:"どちらでも", placeIn:"室内", placeOut:"外",
     nextMove:"次のデート案", nextWhy:"今のふたりに合いそうなデートだよ。",
-    inviteSend:"この結果を相手に送る",
-    inviteHint:"リンク送信 → 相手が8問に回答 → 二人用のデート案が1件表示。相手のタイプ入力は不要。",
+    inviteSend:"このデート案を相手に送る",
+    inviteHint:"リンクを送る → 相手が8問に回答 → 二人の好みからデート案を1つ作る。相手のMBTIタイプは不要。",
     inviteMsg:"送り文",
     inviteCopy:"送り文をコピー",
     inviteLink:"招待リンク",
@@ -369,13 +369,13 @@ const UI = {
     lookType:"タイプページ", invite:"相手のタイプを見る",
     persona:"恋愛の型", personNote:"デート案は、タイプ名より好みを優先してるよ。",
     like:"大切にしたい", hate:"負担になりやすい",
-    tonight:"今夜のデート案", tonightWhy:"今の好みに合いそうなデートだよ。",
+    tonight:"今夜のデート案", tonightWhy:"今の好みに合いそうなデートだよ。", shopHint:"必要なものがあれば、Amazon・楽天で探してみる？",
     fitTitle:"相性のよいデート", avoidTitle:"今は重いかも",
     pairTitle:"二人の相性", pairPick:"相手のタイプ",
     pairScore:"関係の進みやすさ",
     datesTitle:"デートから探す",
     typesTitle:"タイプから見る",
-    stores:"この夜の小物を探す",
+    stores:"デートの準備に使えそうなもの",
     fromDate:"このデートは誰向き？",
     footer:"診断は娯楽の目安です。掲載リンクの一部にはAmazonアソシエイト・楽天アフィリエイトを含みます。",
     support:"作者にコーヒーを",
@@ -383,13 +383,14 @@ const UI = {
     load:"この結果を開く", del:"削除",
     share:"結果を送る", shareX:"X", shareLine:"LINE", shareCopy:"リンク",
     copied:"コピーしました",
-    how:"使い方", s1:"まずは8問でOK", s1d:"デートの好みだけ聞いて、次の案を出すよ。タイプはあとから足せるよ。", s2:"気になる人にも送れる", s2d:"リンクを開いて8問答えると、ふたりの案になるよ。", s3:"具体的なデート案", s3d:"夜の散歩、手紙、長いカフェなどから、合いそうなものを出すよ。",
+    how:"使い方", s1:"まずは8問でOK", s1d:"デートの好みだけ聞いて、次の案を出すよ。タイプはあとから足せるよ。", s2:"二人で決められる", s2d:"リンクを送って8問答えると、ふたりの好みから一つのデート案になるよ。", s3:"そのまま動ける一案", s3d:"夜の散歩、手紙、長いカフェなどから、今のふたりに合いそうな一つを出すよ。",
     compat:"相性の出やすい相手",
     caution:"気をつけたい点",
     shareText:(type,love,d)=>`私のMBTIは${type}。次のデート案は「${d}」だよ。 #MBTI #恋愛診断`,
     inviteText:(d)=>`8問だけ答えてほしいな。今の私のデート案は「${d}」。ふたりの案を1つ出してくれるよ。`,
     faqTitle:"よくある質問",
-    shareImg:"画像で保存/共有",
+    shareImg:"画像で保存/共有", amazon:"Amazonで探す", rakuten:"楽天で探す",
+    shopHint:"必要なものがあれば、Amazon・楽天で探してみる？",
   },
   en: {
     appTitle:"MBTI Love Reading", tagline:"Pick the next date before you name the type. 8 or 20 questions.",
@@ -426,7 +427,7 @@ const UI = {
     pairScore:"Ease of pacing",
     datesTitle:"Browse dates",
     typesTitle:"16 love styles",
-    stores:"Find pieces for the night",
+    stores:"Things for this date",
     fromDate:"Who is this for?",
     footer:"For play, not prophecy. Some links are Amazon and Rakuten affiliates.",
     support:"Coffee for the author",
@@ -440,7 +441,8 @@ const UI = {
     shareText:(type,love,d)=>`I'm ${type} — love style "${love}". Next move: ${d}.`,
     inviteText:(d)=>`Answer 8 questions? My next move is "${d}". It will mix your taste and pick one plan for both of us.`,
     faqTitle:"FAQ",
-    shareImg:"Save / share image",
+    shareImg:"Save / share image", amazon:"Browse Amazon", rakuten:"Browse Rakuten",
+    shopHint:"Need something for the date? Browse Amazon or Rakuten.",
   },
   zh: {
     appTitle:"MBTI 恋爱诊断", tagline:"先定下一步约会，再看类型。8题或20题。",
@@ -477,7 +479,7 @@ const UI = {
     pairScore:"推进的轻松度",
     datesTitle:"从约会找",
     typesTitle:"16种恋爱",
-    stores:"找今晚的小物",
+    stores:"找适合这次约会的东西",
     fromDate:"这约会适合谁",
     footer:"仅供娱乐。部分链接含亚马逊、乐天联盟。",
     support:"请作者喝咖啡",
@@ -491,7 +493,8 @@ const UI = {
     shareText:(type,love,d)=>`我是${type}，恋爱型「${love}」。下一步：${d}。`,
     inviteText:(d)=>`帮我答8题就好。我现在的下一步是「${d}」。会把你的偏好混进去，给两个人定一个计划。`,
     faqTitle:"常见问题",
-    shareImg:"保存/分享图片",
+    shareImg:"保存/分享图片", amazon:"去亚马逊找", rakuten:"去乐天找",
+    shopHint:"如果需要准备东西，可以去亚马逊或乐天看看。",
   },
   ko: {
     appTitle:"MBTI 연애 진단", tagline:"다음 데이트, 같이 생각해 볼래? 질문에 답하면 제안이 나와. 마음에 드는 사람에게도 보낼 수 있어.",
@@ -528,7 +531,7 @@ const UI = {
     pairScore:"관계가 나아가기 쉬운 정도",
     datesTitle:"데이트부터 찾기",
     typesTitle:"유형부터 보기",
-    stores:"이 밤의 소품 찾기",
+    stores:"이 데이트에 필요한 것 찾기",
     fromDate:"이 데이트는 누구에게 맞을까?",
     footer:"진단은 오락용 참고입니다. 일부 링크에 Amazon 어소시에이트·Rakuten 제휴를 포함합니다.",
     support:"작가에게 커피를",
@@ -542,7 +545,8 @@ const UI = {
     shareText:(type,love,d)=>`내 MBTI는 ${type}. 다음 데이트 제안은 「${d}」. #MBTI #연애진단`,
     inviteText:(d)=>`8문항만 답해 줬으면 해. 지금 내 데이트 제안은 「${d}」. 둘의 제안을 하나 내 줘.`,
     faqTitle:"자주 묻는 질문",
-    shareImg:"이미지로 저장/공유",
+    shareImg:"이미지로 저장/공유", amazon:"Amazon에서 찾기", rakuten:"Rakuten에서 찾기",
+    shopHint:"데이트에 필요한 게 있다면 Amazon·Rakuten에서 찾아봐.",
   },
   es: {
     appTitle:"Diagnóstico MBTI de citas", tagline:"¿Armamos la próxima cita? Respondes y sale una idea. También se la puedes enviar a quien te gusta.",
@@ -579,7 +583,7 @@ const UI = {
     pairScore:"Qué tan fácil avanza",
     datesTitle:"Buscar por cita",
     typesTitle:"Buscar por tipo",
-    stores:"Buscar detalles para la noche",
+    stores:"Buscar cosas para esta cita",
     fromDate:"¿Para quién es esta cita?",
     footer:"Es entretenimiento, no un oráculo. Algunos links son afiliados de Amazon y Rakuten.",
     support:"Un café para quien lo hizo",
@@ -955,10 +959,12 @@ function App(){
         </div>
         <p style={s.muted}>{dateReason(d, activePrefs, lang)}</p>
         {!compact && (
-          <div style={s.storeRow}>
-            <span style={s.storeLabel}>{t.stores}</span>
-            <a href={amazonUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"amazon", shop:d.shop, type:resultType})}>Amazon</a>
-            <a href={rakutenUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"rakuten", shop:d.shop, type:resultType})}>楽天</a>
+          <div>
+            <p style={{...s.muted, margin:"10px 0 6px"}}>{t.stores}</p>
+            <div style={s.storeRow}>
+            <a href={amazonUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"amazon", shop:d.shop, type:resultType})}>{t.amazon}</a>
+            <a href={rakutenUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"rakuten", shop:d.shop, type:resultType})}>{t.rakuten}</a>
+            </div>
           </div>
         )}
       </div>
@@ -1093,9 +1099,10 @@ function App(){
                 <button className="display" style={s.tonightName} onClick={()=>{ setFocusDate(tonight.item); setScreen("date"); }}>{tonight.item.name[lang]}</button>
                 <p style={{margin:"8px 0"}}>{dateReason(tonight.item, activePrefs, lang)}</p>
                 <p style={s.muted}>{t.tonightWhy}</p>
+                <p style={{...s.muted, margin:"10px 0 6px"}}>{t.shopHint}</p>
                 <div style={s.storeRow}>
-                  <a href={amazonUrl(tonight.item.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"amazon", shop:tonight.item.shop, type:resultType, placement:"tonight"})}>Amazon</a>
-                  <a href={rakutenUrl(tonight.item.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"rakuten", shop:tonight.item.shop, type:resultType, placement:"tonight"})}>楽天</a>
+                  <a href={amazonUrl(tonight.item.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"amazon", shop:tonight.item.shop, type:resultType, placement:"tonight"})}>{t.amazon}</a>
+                  <a href={rakutenUrl(tonight.item.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"rakuten", shop:tonight.item.shop, type:resultType, placement:"tonight"})}>{t.rakuten}</a>
                 </div>
               </div>
             )}
@@ -1119,7 +1126,7 @@ function App(){
             {tab==="pair" && (
               <div>
                 <div style={s.card}>
-                  <p className="display" style={s.kicker}>{t.inviteSend}</p>
+                  <p className="display" style={{...s.kicker, color:temp.accent}}>{t.inviteSend}</p>
                   <p style={s.muted}>{t.inviteHint}</p>
                   <p style={{whiteSpace:"pre-wrap", lineHeight:1.7}}>{inviteBody}</p>
                   <div style={s.storeRow}>
@@ -1162,7 +1169,7 @@ function App(){
 
             <div style={{display:"flex", gap:8, flexWrap:"wrap", marginTop:18}}>
               <button style={s.primary} onClick={saveResult}>{saveMsg?t.saved:t.save}</button>
-              <button style={s.ghost} onClick={()=>setTab("pair")}>{t.inviteSend}</button>
+              <button style={s.primary} onClick={()=>setTab("pair")}>{t.inviteSend}</button>
               <button style={s.ghost} onClick={()=>startQuiz(quizMode==="short"?"short":"full")}>{t.retake}</button>
               {resultType && <button style={s.ghost} onClick={()=>setScreen("type")}>{t.lookType}</button>}
             </div>
@@ -1214,8 +1221,8 @@ function App(){
                 <p style={s.muted}>{d.why[lang]}</p>
                 <div style={s.storeRow}>
                   <span style={s.storeLabel}>{t.stores}</span>
-                  <a href={amazonUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"amazon", shop:d.shop, placement:"list"})}>Amazon</a>
-                  <a href={rakutenUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"rakuten", shop:d.shop, placement:"list"})}>楽天</a>
+                  <a href={amazonUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"amazon", shop:d.shop, placement:"list"})}>{t.amazon}</a>
+                  <a href={rakutenUrl(d.shop)} target="_blank" rel="noreferrer sponsored" style={s.storeBtn} onClick={()=>track("affiliate_click",{store:"rakuten", shop:d.shop, placement:"list"})}>{t.rakuten}</a>
                 </div>
               </div>
             ))}
@@ -1241,8 +1248,8 @@ function App(){
             ))}
             <div style={{...s.storeRow, marginTop:16}}>
               <span style={s.storeLabel}>{t.stores}</span>
-              <a href={amazonUrl(focusDate.shop)} target="_blank" rel="noreferrer sponsored" style={s.primary} onClick={()=>track("affiliate_click",{store:"amazon", shop:focusDate.shop, placement:"detail"})}>Amazon</a>
-              <a href={rakutenUrl(focusDate.shop)} target="_blank" rel="noreferrer sponsored" style={s.ghost} onClick={()=>track("affiliate_click",{store:"rakuten", shop:focusDate.shop, placement:"detail"})}>楽天</a>
+              <a href={amazonUrl(focusDate.shop)} target="_blank" rel="noreferrer sponsored" style={s.primary} onClick={()=>track("affiliate_click",{store:"amazon", shop:focusDate.shop, placement:"detail"})}>{t.amazon}</a>
+              <a href={rakutenUrl(focusDate.shop)} target="_blank" rel="noreferrer sponsored" style={s.ghost} onClick={()=>track("affiliate_click",{store:"rakuten", shop:focusDate.shop, placement:"detail"})}>{t.rakuten}</a>
             </div>
           </div>
         )}
