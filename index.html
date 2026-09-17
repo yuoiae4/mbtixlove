@@ -79,11 +79,13 @@
 <meta property="og:image:height" content="630" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:alt" content="MBTI 恋愛診断" />
+<meta property="og:image" content="https://yuoiae4.github.io/mbtixlove/ogp-love-en.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:alt" content="MBTI Love Diagnosis" />
 <meta property="og:locale" content="ja_JP" />
 <meta property="og:locale:alternate" content="en_US" />
-<meta property="og:locale:alternate" content="zh_CN" />
-<meta property="og:locale:alternate" content="ko_KR" />
-<meta property="og:locale:alternate" content="es_ES" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="MBTI 恋愛診断 | 次のデート、考えてみる？" />
 <meta name="twitter:description" content="次のデートに迷ったら。質問に答えると案が出るよ。" />
@@ -125,65 +127,6 @@
 <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 <script type="text/babel">
 const { useEffect, useState } = React;
-
-const LANGS = ["ja","en","zh","ko","es"];
-const LANG_FILE = { ja:"index.html", en:"en.html", zh:"zh.html", ko:"ko.html", es:"es.html" };
-const LANG_LOCALE = { ja:"ja_JP", en:"en_US", zh:"zh_CN", ko:"ko_KR", es:"es_ES" };
-const OG_IMAGE_FILE = { ja:"ogp-love.png", en:"ogp-love-en.png", zh:"ogp-love-zh.png", ko:"ogp-love-ko.png", es:"ogp-love-es.png" };
-const OG_COPY = {
-  ja: { title:"MBTI 恋愛診断 | 次のデート、考えてみる？", desc:"次のデートに迷ったら。質問に答えると案が出るよ。気になる人にも送れるよ。無料・登録不要。", imageAlt:"MBTI 恋愛診断" },
-  en: { title:"MBTI Love Reading | Pick the next date", desc:"Answer a few questions and get a next-date idea. Send it to someone you like. Free, no signup.", imageAlt:"MBTI Love Reading" },
-  zh: { title:"MBTI 恋爱诊断 | 先定下一步约会", desc:"答几题就会给出下一步约会。也可以发给喜欢的人。免费、不用注册。", imageAlt:"MBTI 恋爱诊断" },
-  ko: { title:"MBTI 연애 진단 | 다음 데이트, 생각해 볼래?", desc:"질문에 답하면 데이트 제안이 나와. 마음에 드는 사람에게도 보낼 수 있어. 무료, 가입 불필요.", imageAlt:"MBTI 연애 진단" },
-  es: { title:"Diagnóstico MBTI de citas | ¿Y la próxima cita?", desc:"Respondes y sale una idea de cita. También se la puedes enviar a quien te gusta. Gratis, sin registro.", imageAlt:"Diagnóstico MBTI de citas" },
-};
-function detectLang(){
-  try {
-    const params = new URLSearchParams(window.location.search);
-    const q = (params.get("lang")||"").toLowerCase();
-    if (LANGS.indexOf(q)>=0) return q;
-    const path = (window.location.pathname||"").toLowerCase();
-    if (/\/en\.html$|\/en\/?$/.test(path)) return "en";
-    if (/\/zh\.html$|\/zh\/?$/.test(path)) return "zh";
-    if (/\/ko\.html$|\/ko\/?$/.test(path)) return "ko";
-    if (/\/es\.html$|\/es\/?$/.test(path)) return "es";
-  } catch(e){}
-  return "ja";
-}
-function siteDir(){
-  return window.location.pathname.replace(/[^/]*$/, "");
-}
-function pageUrlForLang(code){
-  const dir = siteDir();
-  const origin = window.location.origin;
-  if (code==="ja") return origin + dir;
-  return origin + dir + (LANG_FILE[code]||"index.html");
-}
-function ogImageUrl(code){
-  return window.location.origin + siteDir() + (OG_IMAGE_FILE[code]||OG_IMAGE_FILE.ja);
-}
-function applyHeadLang(code){
-  const meta = OG_COPY[code] || OG_COPY.ja;
-  const image = ogImageUrl(code);
-  try { document.documentElement.lang = code; } catch(e){}
-  document.title = meta.title;
-  const set = (sel, attr, val) => {
-    const el = document.head.querySelector(sel);
-    if (el) el.setAttribute(attr, val);
-  };
-  set('meta[name="description"]','content', meta.desc);
-  set('meta[property="og:title"]','content', meta.title);
-  set('meta[property="og:description"]','content', meta.desc);
-  set('meta[property="og:image"]','content', image);
-  set('meta[property="og:image:alt"]','content', meta.imageAlt);
-  set('meta[property="og:url"]','content', pageUrlForLang(code));
-  set('meta[property="og:locale"]','content', LANG_LOCALE[code]||"ja_JP");
-  set('meta[name="twitter:title"]','content', meta.title);
-  set('meta[name="twitter:description"]','content', meta.desc);
-  set('meta[name="twitter:image"]','content', image);
-  const can = document.querySelector('link[rel="canonical"]');
-  if (can) can.setAttribute("href", pageUrlForLang(code));
-}
 
 const STORAGE_KEY = "mbti-love-history-v1";
 const AMAZON_TAG = "d4ga9kxf-22";
@@ -816,7 +759,7 @@ const IconHeart = ({size=18, color="#E8B4BC"}) => (
 );
 
 function App(){
-  const [lang, setLang] = useState(detectLang);
+  const [lang, setLang] = useState("ja");
   const [screen, setScreen] = useState("start");
   const [qIndex, setQIndex] = useState(0);
   const [quizMode, setQuizMode] = useState("full");
@@ -851,7 +794,6 @@ function App(){
   const lh = likesHates(prefs, lang);
   const isShortResult = quizMode==="short" && !resultType;
 
-  useEffect(()=>{ applyHeadLang(lang); }, [lang]);
   useEffect(()=>{
     try { const raw = localStorage.getItem(STORAGE_KEY); if (raw) setHistory(JSON.parse(raw)); } catch(e){}
     try { const c = localStorage.getItem("mbti-love-consent-v1"); if (c==="granted"||c==="denied") setConsent(c); } catch(e){}
@@ -939,9 +881,8 @@ function App(){
   };
   const shareUrl = (asInvite) => {
     try {
-      const u = new URL(pageUrlForLang(lang));
+      const u = new URL(window.location.href);
       u.search = "";
-      u.searchParams.set("lang", lang);
       if (resultType) u.searchParams.set("type", resultType);
       u.searchParams.set("p", encodePrefs(prefs));
       u.searchParams.set("stage", stage);
@@ -1399,6 +1340,25 @@ const s = {
 };
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+<script>
+(function () {
+  var KEY = "mbtixlove-counted-v1";
+  var counted = false;
+  try { counted = localStorage.getItem(KEY) === "1"; } catch (e) {}
+  var img = document.createElement("img");
+  img.alt = "";
+  img.width = 1;
+  img.height = 1;
+  img.style.cssText = "position:absolute;width:1px;height:1px;opacity:0;pointer-events:none";
+  img.src = "https://hits.sh/yuoiae4.github.io/mbtixlove.svg";
+  if (!counted) {
+    try { localStorage.setItem(KEY, "1"); } catch (e) {}
+  } else {
+    img.src = "https://hits.sh/yuoiae4.github.io/mbtixlove.svg?view=total";
+  }
+  document.body.appendChild(img);
+})();
 </script>
 </body>
 </html>
