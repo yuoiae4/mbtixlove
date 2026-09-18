@@ -1271,6 +1271,11 @@ function App(){
       {screen!=="quiz" && (
         <footer style={s.footer}>
           <a href={SUPPORT_URL} target="_blank" rel="noreferrer" style={{color:"#C9A06A", textDecoration:"none"}} onClick={()=>track("support_click",{type:resultType})}>☕ {t.support}</a>
+          <div style={{margin:"12px 0 8px"}}>
+            <a href="https://hits.sh/yuoiae4.github.io/mbtixlove/" target="_blank" rel="noreferrer">
+              <img alt="Hits" src="https://hits.sh/yuoiae4.github.io/mbtixlove.svg" style={{height:20, verticalAlign:"middle"}} />
+            </a>
+          </div>
           <p style={s.fine}>{t.footer}</p>
           <details style={s.faq}>
             <summary style={s.faqQ}>{CONSENT_TEXT[lang].legalTitle}</summary>
@@ -1340,25 +1345,6 @@ const s = {
 };
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
-</script>
-<script>
-(function () {
-  var KEY = "mbtixlove-counted-v1";
-  var counted = false;
-  try { counted = localStorage.getItem(KEY) === "1"; } catch (e) {}
-  var img = document.createElement("img");
-  img.alt = "";
-  img.width = 1;
-  img.height = 1;
-  img.style.cssText = "position:absolute;width:1px;height:1px;opacity:0;pointer-events:none";
-  img.src = "https://hits.sh/yuoiae4.github.io/mbtixlove.svg";
-  if (!counted) {
-    try { localStorage.setItem(KEY, "1"); } catch (e) {}
-  } else {
-    img.src = "https://hits.sh/yuoiae4.github.io/mbtixlove.svg?view=total";
-  }
-  document.body.appendChild(img);
-})();
 </script>
 </body>
 </html>
